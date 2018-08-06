@@ -1,10 +1,15 @@
 {
   "name": "fba-prof-prods",
   "version": "1.0.0",
+  "engines": {
+    "node": "8.9.4",
+    "npm": "6.3.0"
+  },
   "description": "A tool for Fulfillment By Amazon Sellers to find the most profitable products in their inventory. A vendor can upload their distributor files and use our algorithm to cross-reference with Amazon's public sales data and find which products in their existing network are profitable.",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "export NODE_ENV=testing; mocha --recursive -R mocha-multi --reporter-options spec=-,json=.results.json",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +20,26 @@
   "bugs": {
     "url": "https://github.com/AdamT213/FBA-prof-prods/issues"
   },
-  "homepage": "https://github.com/AdamT213/FBA-prof-prods#readme"
+  "homepage": "https://github.com/AdamT213/FBA-prof-prods#readme",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0",
+    "mocha-jsdom": "^2.0.0",
+    "mocha-multi": "^1.0.1",
+    "supertest": "^3.1.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "bookshelf": "^0.13.3",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.3",
+    "cookie-session": "^2.0.0-beta.3",
+    "express": "^4.16.3",
+    "jsdom": "^11.12.0",
+    "knex": "^0.15.2",
+    "lodash": "^4.17.10",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "pg": "^7.4.3"
+  }
 }
