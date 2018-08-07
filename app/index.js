@@ -15,7 +15,9 @@ const db = knex(config[ENV]);
 
 // Initialize Express.
 const app = express();
-var router = express.Router();
+const router = express.Router();
+const multer  = require('multer')
+const upload = multer()
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
@@ -31,7 +33,7 @@ console.log(`Running in environment: ${ENV}`);
 
 // ***** Models ***** //
 
-//const Hand = require('./models/hand');
+const Distributor = require('./models/distributor');
  
 /// ***** Passport Strategies & Helpers ***** //
 
@@ -39,48 +41,63 @@ console.log(`Running in environment: ${ENV}`);
 // ***** Server ***** //
 
 
-// router.get('/hands', (req, res) => {
-//   Hand
-//     .collection()
-//     .fetch({withRelated: ['sessions', 'tables','hands_tags']})
-//     .then((hands) => {
-//       res.json(hands);
-//     })
-//     .catch((error) => {
-//       console.error(error);
-//       return res.sendStatus(500);
-//     });
-// });
+router.get('/distributors', (req, res) => {
+  Distributor
+    .collection()
+    .fetch({withRelated: ['related items needed for distributors']})
+    .then((distributors) => {
+      res.json(distributors);
+    })
+    .catch((error) => {
+      console.error(error);
+      return res.sendStatus(500);
+    });
+});
 
-// router.get('/hand/:id', (req,res) => {
-//   Hand
-//     .forge({id: req.params.id})
-//     .fetch({withRelated: ['sessions', 'tables', 'hands_tags']})
-//     .then((hand) => {
-//       if (_.isEmpty(hand))
-//         return res.sendStatus(404);
-//       res.json(hand);
-//     })
-//     .catch((error) => {
-//       console.error(error);
-//       return res.sendStatus(500);
-//     });
-// });
+router.get('/distributor/:id', (req,res) => {
+  Distributor
+    .forge({id: req.params.id})
+    .fetch({withRelated: ['related items needed for distributors']})
+    .then((distributor) => {
+      if (_.isEmpty(distributor))
+        return res.sendStatus(404);
+      res.json(distributor);
+    })
+    .catch((error) => {
+      console.error(error);
+      return res.sendStatus(500);
+    });
+});
 
-// router.post('/hands', (req, res) => {
-//   if(_.isEmpty(req.body))
-//     return res.sendStatus(400);
-//   Hand
-//     .forge(req.body)
-//     .save()
-//     .then((hand) => {
-//       res.json({id: hand.id});
-//     })
-//     .catch((error) => {
-//       console.error(error);
-//       return res.sendStatus(500);
-//     });
-// });
+router.post('/distributors', (req, res) => {
+  if(_.isEmpty(req.body))
+    return res.sendStatus(400);
+  Distributor
+    .forge(req.body)
+    .save()
+    .then((distributor) => {
+      res.json({id: distributor.id});
+    })
+    .catch((error) => {
+      console.error(error);
+      return res.sendStatus(500);
+    });
+}); 
+
+router.post('/distributor/:id/upload', (req,res) => {
+  Distributor
+    .forge({id: req.params.id})
+    .fetch({withRelated: ['related items needed for distributors']})
+    .then((distributor) => {
+      if (_.isEmpty(distributor))
+        return res.sendStatus(404);
+      res.json(distributor);
+    })
+    .catch((error) => {
+      console.error(error);
+      return res.sendStatus(500);
+    });
+});
 
 
 
