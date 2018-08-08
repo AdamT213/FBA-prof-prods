@@ -94,33 +94,55 @@ router.post('/distributor/:id/files', (req,res) => {
   })
 }); 
 
-router.get('/distributor/:id/files/:id', (req, res) => { 
-  File
-    .forge({id: req.params.id})
-    .fetch()
-    .then((file) => {
-      if (_.isEmpty(file))
-        return res.sendStatus(404);
-      var output = [];
-      // Create the parser
-      var parser = parse({delimiter: ':'});
-      // Use the writable stream api
-      parser.on('readable', function(){
-        while(record = parser.read()){
-          output.push(record);
-        }
-      });
-      // Catch any error
-      parser.on('error', function(err){
-        console.log(err.message);
-      });
-      parser.end(); 
-    })
-    .catch((error) => {
-      console.error(error);
-      return res.sendStatus(500);
-    });
-})
+// router.get('/distributor/:id/files/:id', (req, res) => { 
+//   File
+//     .forge({id: req.params.id})
+//     .fetch()
+//     .then((file) => {
+//       if (_.isEmpty(file))
+//         return res.sendStatus(404);
+//       return parseJson(file)
+//     })
+//     .then((jsonData) => { 
+//       for (var i in jsonData) { 
+//         fetch("pathtoAmazonsellerapiitem=JsonData[i]", {
+//           if (isProfitable(jsonData[i])) { 
+//             ProfProd
+//             .forge(JsonData[i])
+//             .save()
+//             .then((profProd) => {
+//               res.json({id: profProd.id});
+//             })
+//           }
+//         }) 
+//       }
+//     })
+//     .catch((error) => {
+//       console.error(error);
+//       return res.sendStatus(500);
+//     });
+// }) 
+
+// function parseJson(file) { 
+//     var output = [];
+//       // Create the parser
+//     var parser = parse({delimiter: ':'});
+//     // Use the writable stream api
+//     parser.on('readable', function(){
+//       while(record = parser.read()){
+//         output.push(record);
+//       }
+//     });
+//     // Catch any error
+//     parser.on('error', function(err){
+//       console.log(err.message);
+//     });
+//     parser.end(); 
+// } 
+
+// function isProfitable(item) { 
+//   //algorithm to determine if a given item can be sold profitably
+// }
 
 
 // Exports for Server Hoisting.
