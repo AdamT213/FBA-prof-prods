@@ -88,21 +88,20 @@ router.post('/distributor/:id/upload', (req,res) => {
   csv()
   .fromString(req.body.toString('utf8'))
   .on('json', (item) => { 
-    console.log(item)
-    // item.distributor_id = distributor.id 
-    // Product
-    //   .forge(item.body)
-    //   .save()
-    //   .then((product) => {
-    //     res.json({id: product.id});
-    //   })
-    //   .catch((error) => {
-    //     console.error(error);
-    //     return res.sendStatus(500);
-    //    })
-    // })
-    // .on('done', () => {
-    //   console.log('done parsing');
+    item.distributor_id = distributor.id 
+    Product
+      .forge(item.body)
+      .save()
+      .then((product) => {
+        res.json({id: product.id});
+      })
+      .catch((error) => {
+        console.error(error);
+        return res.sendStatus(500);
+       })
+    })
+    .on('done', () => {
+      console.log('done parsing');
     });
 }); 
 
