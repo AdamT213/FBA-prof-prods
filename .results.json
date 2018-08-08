@@ -2,12 +2,12 @@
   "stats": {
     "suites": 6,
     "tests": 5,
-    "passes": 4,
+    "passes": 5,
     "pending": 0,
-    "failures": 1,
-    "start": "2018-08-08T19:09:02.759Z",
-    "end": "2018-08-08T19:09:03.124Z",
-    "duration": 365
+    "failures": 0,
+    "start": "2018-08-08T19:18:04.794Z",
+    "end": "2018-08-08T19:18:05.089Z",
+    "duration": 295
   },
   "tests": [
     {
@@ -20,64 +20,34 @@
     {
       "title": "fails with an empty request body",
       "fullTitle": "app /api/distributors POST fails with an empty request body",
-      "duration": 55,
+      "duration": 32,
       "currentRetry": 0,
       "err": {}
     },
     {
       "title": "succeeds with valid distributor values",
       "fullTitle": "app /api/distributors POST succeeds with valid distributor values",
-      "duration": 88,
+      "duration": 38,
       "currentRetry": 0,
       "err": {}
     },
     {
       "title": "saves a record to the database",
       "fullTitle": "Distributor saves a record to the database",
-      "duration": 5,
+      "duration": 3,
       "currentRetry": 0,
       "err": {}
     },
     {
       "title": "saves a record to the database",
       "fullTitle": "Product saves a record to the database",
-      "duration": 4,
+      "duration": 6,
       "currentRetry": 0,
-      "err": {
-        "stack": "error: column \"distributor_id\" of relation \"products\" does not exist\n    at Connection.parseE (node_modules/pg/lib/connection.js:553:11)\n    at Connection.parseMessage (node_modules/pg/lib/connection.js:378:19)\n    at Socket.<anonymous> (node_modules/pg/lib/connection.js:119:22)\n    at addChunk (_stream_readable.js:263:12)\n    at readableAddChunk (_stream_readable.js:250:11)\n    at Socket.Readable.push (_stream_readable.js:208:10)\n    at TCP.onread (net.js:594:20)",
-        "message": "insert into \"products\" (\"Price\", \"SKU\", \"UPC\", \"amazonFees\", \"created_at\", \"distributor_id\", \"isProfitable\", \"numberOfSellers\", \"productCost\", \"profitMargin\", \"retailSellingPrice\", \"title\", \"totalMonthlySales\", \"updated_at\") values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) returning \"id\" - column \"distributor_id\" of relation \"products\" does not exist",
-        "name": "error",
-        "length": 127,
-        "severity": "ERROR",
-        "code": "42703",
-        "position": "76",
-        "file": "parse_target.c",
-        "line": "954",
-        "routine": "checkInsertTargets"
-      }
+      "err": {}
     }
   ],
   "pending": [],
-  "failures": [
-    {
-      "title": "saves a record to the database",
-      "fullTitle": "Product saves a record to the database",
-      "duration": 4,
-      "currentRetry": 0,
-      "err": {
-        "stack": "error: column \"distributor_id\" of relation \"products\" does not exist\n    at Connection.parseE (node_modules/pg/lib/connection.js:553:11)\n    at Connection.parseMessage (node_modules/pg/lib/connection.js:378:19)\n    at Socket.<anonymous> (node_modules/pg/lib/connection.js:119:22)\n    at addChunk (_stream_readable.js:263:12)\n    at readableAddChunk (_stream_readable.js:250:11)\n    at Socket.Readable.push (_stream_readable.js:208:10)\n    at TCP.onread (net.js:594:20)",
-        "message": "insert into \"products\" (\"Price\", \"SKU\", \"UPC\", \"amazonFees\", \"created_at\", \"distributor_id\", \"isProfitable\", \"numberOfSellers\", \"productCost\", \"profitMargin\", \"retailSellingPrice\", \"title\", \"totalMonthlySales\", \"updated_at\") values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) returning \"id\" - column \"distributor_id\" of relation \"products\" does not exist",
-        "name": "error",
-        "length": 127,
-        "severity": "ERROR",
-        "code": "42703",
-        "position": "76",
-        "file": "parse_target.c",
-        "line": "954",
-        "routine": "checkInsertTargets"
-      }
-    }
-  ],
+  "failures": [],
   "passes": [
     {
       "title": "is a function",
@@ -89,21 +59,28 @@
     {
       "title": "fails with an empty request body",
       "fullTitle": "app /api/distributors POST fails with an empty request body",
-      "duration": 55,
+      "duration": 32,
       "currentRetry": 0,
       "err": {}
     },
     {
       "title": "succeeds with valid distributor values",
       "fullTitle": "app /api/distributors POST succeeds with valid distributor values",
-      "duration": 88,
+      "duration": 38,
       "currentRetry": 0,
       "err": {}
     },
     {
       "title": "saves a record to the database",
       "fullTitle": "Distributor saves a record to the database",
-      "duration": 5,
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "saves a record to the database",
+      "fullTitle": "Product saves a record to the database",
+      "duration": 6,
       "currentRetry": 0,
       "err": {}
     }

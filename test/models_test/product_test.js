@@ -18,7 +18,6 @@ const mockProduct = {
   totalMonthlySales: 4058, 
   retailSellingPrice: 4.05,
   amazonFees: .5,
-  productCost: 1.17,
   profitMargin: 2.38,
   numberOfSellers: 25, 
   distributor_id: 1
@@ -61,8 +60,6 @@ describe('Product', function() {
         expect(product.get('retailSellingPrice')).to.equal(mockProduct.retailSellingPrice)
         expect(product.get('amazonFees')).to.be.a('number') 
         expect(product.get('amazonFees')).to.equal(mockProduct.amazonFees)
-        expect(product.get('ProductCost')).to.be.a('number') 
-        expect(product.get('ProductCost')).to.equal(mockProduct.ProductCost)
         expect(product.get('profitMargin')).to.be.a('number') 
         expect(product.get('profitMargin')).to.equal(mockProduct.profitMargin)
         expect(product.get('numberOfSellers')).to.be.a('number') 
