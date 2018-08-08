@@ -43,7 +43,7 @@ const Product = require('./models/product')
 router.get('/distributors', (req, res) => {
   Distributor
     .collection()
-    .fetch({withRelated: ['related items needed for distributors']})
+    .fetch()
     .then((distributors) => {
       res.json(distributors);
     })
@@ -56,7 +56,7 @@ router.get('/distributors', (req, res) => {
 router.get('/distributor/:id', (req,res) => {
   Distributor
     .forge({id: req.params.id})
-    .fetch({withRelated: ['related items needed for distributors']})
+    .fetch({withRelated: ['products']})
     .then((distributor) => {
       if (_.isEmpty(distributor))
         return res.sendStatus(404);

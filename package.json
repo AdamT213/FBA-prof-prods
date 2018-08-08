@@ -9,7 +9,7 @@
   "main": "app.js",
   "scripts": {
     "test": "export NODE_ENV=testing; mocha --recursive -R mocha-multi --reporter-options spec=-,json=.results.json",
-    "start": "export NODE_ENV=development; node server.js"
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
