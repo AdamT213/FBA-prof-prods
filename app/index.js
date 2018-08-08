@@ -103,7 +103,7 @@ router.post('/distributor/:id/upload', (req,res) => {
     // })
     // .on('done', () => {
     //   console.log('done parsing');
-    // });
+    });
 }); 
 
 // Exports for Server Hoisting.
