@@ -86,7 +86,7 @@ router.post('/distributors', (req, res) => {
 
 router.post('/distributor/:id/upload', (req,res) => { 
   csv()
-  .fromString(req.files[0].data.toString('utf8'))
+  .fromString(req.files.data.toString('utf8'))
   .on('json', (item) => { 
     item.distributor_id = distributor.id 
     Product
