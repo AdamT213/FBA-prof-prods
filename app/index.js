@@ -8,9 +8,7 @@ const knex = require('knex');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const flash = require('connect-flash');
-const multer  = require('multer');
-const upload = multer().single();
-const parse = require('csv-parse');
+const csv=require('csvtojson');
 const ENV = process.env.NODE_ENV || 'development';
 
 const config = require('../knexfile');
@@ -34,6 +32,7 @@ console.log(`Running in environment: ${ENV}`);
 // ***** Models ***** //
 
 const Distributor = require('./models/distributor');
+const Product = require('./models/product')
  
 /// ***** Passport Strategies & Helpers ***** //
 
@@ -84,66 +83,26 @@ router.post('/distributors', (req, res) => {
     });
 }); 
 
-router.post('/distributor/:id/files', (req,res) => { 
-  upload(req, res, function (err) {
-    if (err) {
-      console.error("An error occurred when uploading. Please try again. Note that you may only upload one file at a time, and we only support .csv files.")
-      return
-    }
-    console.log("We have received your file. Now we will parse it and find your profitable products!")
-  })
+router.post('/distributor/:id/upload', (req,res) => { 
+  csv()
+  .fromString(req.files[0].data.toString('utf8'))
+  .on('json', (item) => { 
+    item.distributor_id = distributor.id 
+    Product
+      .forge(item.body)
+      .save()
+      .then((product) => {
+        res.json({id: product.id});
+      })
+      .catch((error) => {
+        console.error(error);
+        return res.sendStatus(500);
+       })
+    })
+    .on('done', () => {
+      console.log('done parsing');
+    });
 }); 
-
-// router.get('/distributor/:id/files/:id', (req, res) => { 
-//   File
-//     .forge({id: req.params.id})
-//     .fetch()
-//     .then((file) => {
-//       if (_.isEmpty(file))
-//         return res.sendStatus(404);
-//       return parseJson(file)
-//     })
-//     .then((jsonData) => { 
-//       for (var i in jsonData) { 
-//         fetch("pathtoAmazonsellerapiitem=JsonData[i]", {
-//           if (isProfitable(jsonData[i])) { 
-//             ProfProd
-//             .forge(JsonData[i])
-//             .save()
-//             .then((profProd) => {
-//               res.json({id: profProd.id});
-//             })
-//           }
-//         }) 
-//       }
-//     })
-//     .catch((error) => {
-//       console.error(error);
-//       return res.sendStatus(500);
-//     });
-// }) 
-
-// function parseJson(file) { 
-//     var output = [];
-//       // Create the parser
-//     var parser = parse({delimiter: ':'});
-//     // Use the writable stream api
-//     parser.on('readable', function(){
-//       while(record = parser.read()){
-//         output.push(record);
-//       }
-//     });
-//     // Catch any error
-//     parser.on('error', function(err){
-//       console.log(err.message);
-//     });
-//     parser.end(); 
-// } 
-
-// function isProfitable(item) { 
-//   //algorithm to determine if a given item can be sold profitably
-// }
-
 
 // Exports for Server Hoisting.
 
