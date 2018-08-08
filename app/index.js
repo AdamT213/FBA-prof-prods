@@ -17,8 +17,9 @@ require('dotenv').config()
 // Initialize Express.
 const app = express();
 const router = express.Router();
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({limit: '50mb',
+extended: true}));
+app.use(bodyParser.json({limit: '50mb'}));
 app.use(session({ secret: 'some secret' }));
 app.use(flash());
 app.use(cookieParser());
