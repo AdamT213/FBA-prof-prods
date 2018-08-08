@@ -10,9 +10,9 @@ const LocalStrategy = require('passport-local').Strategy;
 const flash = require('connect-flash');
 const csv=require('csvtojson');
 const ENV = process.env.NODE_ENV || 'development';
-
 const config = require('../knexfile');
 const db = knex(config[ENV]);
+require('dotenv').config()
 
 // Initialize Express.
 const app = express();

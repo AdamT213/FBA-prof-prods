@@ -1,3 +1,4 @@
+
 module.exports = {
 
   testing: {
@@ -30,7 +31,7 @@ module.exports = {
 
   production: { 
     client: 'postgresql', 
-    connection: 'Add production db URL',
+    connection: process.env.PRODUCTION_DB,
     pool: {
       min: 2,
       max: 10
