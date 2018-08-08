@@ -100,10 +100,10 @@ router.post('/distributor/:id/upload', (req,res) => {
   //       console.error(error);
   //       return res.sendStatus(500);
   //      })
-    })
-    .on('done', () => {
-      console.log('done parsing');
-    });
+    // })
+    // .on('done', () => {
+    //   console.log('done parsing');
+    // });
 }); 
 
 // Exports for Server Hoisting.
