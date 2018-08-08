@@ -8,6 +8,9 @@ const knex = require('knex');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const flash = require('connect-flash');
+const multer  = require('multer');
+const upload = multer().single();
+const parse = require('csv-parse');
 const ENV = process.env.NODE_ENV || 'development';
 
 const config = require('../knexfile');
@@ -16,9 +19,6 @@ const db = knex(config[ENV]);
 // Initialize Express.
 const app = express();
 const router = express.Router();
-const multer  = require('multer')
-const upload = multer()
-
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(session({ secret: 'some secret' }));
@@ -84,21 +84,43 @@ router.post('/distributors', (req, res) => {
     });
 }); 
 
-router.post('/distributor/:id/upload', (req,res) => {
-  Distributor
+router.post('/distributor/:id/files', (req,res) => { 
+  upload(req, res, function (err) {
+    if (err) {
+      console.error("An error occurred when uploading. Please try again. Note that you may only upload one file at a time, and we only support .csv files.")
+      return
+    }
+    console.log("We have received your file. Now we will parse it and find your profitable products!")
+  })
+}); 
+
+router.get('/distributor/:id/files/:id', (req, res) => { 
+  File
     .forge({id: req.params.id})
-    .fetch({withRelated: ['related items needed for distributors']})
-    .then((distributor) => {
-      if (_.isEmpty(distributor))
+    .fetch()
+    .then((file) => {
+      if (_.isEmpty(file))
         return res.sendStatus(404);
-      res.json(distributor);
+      var output = [];
+      // Create the parser
+      var parser = parse({delimiter: ':'});
+      // Use the writable stream api
+      parser.on('readable', function(){
+        while(record = parser.read()){
+          output.push(record);
+        }
+      });
+      // Catch any error
+      parser.on('error', function(err){
+        console.log(err.message);
+      });
+      parser.end(); 
     })
     .catch((error) => {
       console.error(error);
       return res.sendStatus(500);
     });
-});
-
+})
 
 
 // Exports for Server Hoisting.
