@@ -91,8 +91,8 @@ router.post('/distributor/:id/upload', upload.single(), function (req, res, next
   // console.log(req.body); 
   next()
 }, function (req, res, next) {
-    console.log(req.body)
-    return csv()
+    // console.log(req.body)
+    csv()
     .fromString(req.body.toString('utf8'))
     .on('json', (item) => { 
       console.log(item)
