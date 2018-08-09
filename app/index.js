@@ -91,31 +91,31 @@ router.post('/distributor/:id/upload', (req,res) => {
     upload(req,res,function(err){
       if(err !== null) return reject(err);
       console.log(res)
-      resolve();
+      resolve(res);
     });
   })
-  .then((req, res) => {
-    console.log(req)
-    // return csv()
-    // .fromString(req.body.toString('utf8'))
-    // .on('json', (item) => { 
-    //   item.distributor_id = req.params.id 
-    //   Product
-    //   .forge(item.body)
-    //   .save()
-    //   .then((product) => {
-    //     res.json({id: product.id});
-    //   })
-    //   .catch((error) => {
-    //     console.error(error);
-    //     return res.sendStatus(500);
-    //   })
-    // })
-    // .on('done', () => { 
-    //   console.log('done parsing'); 
-    //   resolve();
-    // });
-  }) 
+  // .then((req, res) => {
+  //   console.log(req)
+  //   // return csv()
+  //   // .fromString(req.body.toString('utf8'))
+  //   // .on('json', (item) => { 
+  //   //   item.distributor_id = req.params.id 
+  //   //   Product
+  //   //   .forge(item.body)
+  //   //   .save()
+  //   //   .then((product) => {
+  //   //     res.json({id: product.id});
+  //   //   })
+  //   //   .catch((error) => {
+  //   //     console.error(error);
+  //   //     return res.sendStatus(500);
+  //   //   })
+  //   // })
+  //   // .on('done', () => { 
+  //   //   console.log('done parsing'); 
+  //   //   resolve();
+  //   // });
+  // }) 
 })
 
 
