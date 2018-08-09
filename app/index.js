@@ -89,7 +89,7 @@ router.post('/distributors', (req, res) => {
 router.post('/distributor/:id/upload', (req,res) => { 
   return new Promise((upload, err) => {
     if (err) {
-      console.error("An error occurred when uploading. Please try again. Note that you may only upload one file at a time, and we only support.csv files.")
+      console.error(err)
       return
     }
     console.log("We have received your file")
