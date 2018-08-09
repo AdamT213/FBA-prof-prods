@@ -87,33 +87,33 @@ router.post('/distributors', (req, res) => {
 }); 
 
 router.post('/distributor/:id/upload', (req,res) => { 
-  upload(req, res, function (err) {
+  return new Promise((upload, err) => {
     if (err) {
       console.error("An error occurred when uploading. Please try again. Note that you may only upload one file at a time, and we only support.csv files.")
       return
     }
     console.log("We have received your file")
-    return
     }) 
-    csv()
-    .fromString(req.body.toString('utf8'))
-    .on('json', (item) => { 
-    item.distributor_id = req.params.id 
-    Product
-      .forge(item.body)
-      .save()
-      .then((product) => {
-        res.json({id: product.id});
-      })
+    .then((res) => {
+      csv()
+      .fromString(req.body.toString('utf8'))
+      .on('json', (item) => { 
+        item.distributor_id = req.params.id 
+        Product
+        .forge(item.body)
+        .save()
+        .then((product) => {
+          res.json({id: product.id});
+        })
       .catch((error) => {
         console.error(error);
         return res.sendStatus(500);
        })
-    })
-    .on('done', () => {
-      console.log('done parsing'); 
-    });
-    return
+      })
+      .on('done', () => {
+        console.log('done parsing'); 
+      });
+    }) 
   })
 
 // Exports for Server Hoisting.
