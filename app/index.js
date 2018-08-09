@@ -88,7 +88,7 @@ router.post('/distributors', (req, res) => {
 
 router.post('/distributor/:id/upload', upload.single(), function (req, res, next) {
   // console.log(req.body); 
-  console.log(res)
+  console.log(res.req.body)
   return res
 })
   // .then((req, res) => {
