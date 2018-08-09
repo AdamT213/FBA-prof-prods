@@ -88,7 +88,7 @@ router.post('/distributors', (req, res) => {
 
 router.post('/distributor/:id/upload', (req,res) => { 
   return new Promise((resolve, reject) => {
-    upload(req, res, function (err) {
+    return upload(req, res, function (err) {
       if (err) {
         console.error("An error occurred when uploading. Please try again. Note that you may only upload one file at a time, and we only support .csv files.")
         return
@@ -97,7 +97,7 @@ router.post('/distributor/:id/upload', (req,res) => {
     }) 
   })
   .then(() => {
-    csv()
+    return csv()
     .fromString(req.body.toString('utf8'))
     .on('json', (item) => { 
       item.distributor_id = req.params.id 
@@ -112,8 +112,9 @@ router.post('/distributor/:id/upload', (req,res) => {
         return res.sendStatus(500);
       })
     })
-    .on('done', () => {
+    .on('done', () => { 
       console.log('done parsing'); 
+      return
     });
   }) 
 })
