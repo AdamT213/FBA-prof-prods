@@ -8,9 +8,9 @@ const knex = require('knex');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const flash = require('connect-flash');
-var csv = require('csv-parser');
-var fs = require('fs');
+const csv = require('csvtojson');
 const multer  = require('multer');
+const upload = multer();
 const upload = multer({ dest: 'uploads/' });
 const ENV = process.env.NODE_ENV || 'development';
 const config = require('../knexfile');
@@ -89,13 +89,13 @@ router.post('/distributors', (req, res) => {
 
 router.post('/distributor/:id/upload', upload.single(), function (req, res, next) {
   req.setTimeout(600000);
-  console.log(req.body) 
+  // console.log(req.body) 
   next()
 }, function (req, res, next) { 
-    fs.createReadStream('uploads/')
-    .pipe(csv({separator: ',', newline: '\r'}))
-    .on('data', function (data) {
-      console.log('UPC: %s ,Price: %s ,SKU: %s,Title: %s', data.UPC, data.Price, data.SKU, data.Title)
+  csv()
+    .fromFile(req.body)
+    .subscribe((csvLine)=>{
+      console.log(csvLine); 
     })
     // // //   // item.distributor_id = req.params.id 
     // // //   // Product
@@ -107,8 +107,8 @@ router.post('/distributor/:id/upload', upload.single(), function (req, res, next
     // // //   // .catch((error) => {
     // // //   //   console.error(error);
     // // //   //   return res.sendStatus(500);
-    res.end();
-    }) 
+  res.end() 
+}) 
 
 // Exports for Server Hoisting.
 
