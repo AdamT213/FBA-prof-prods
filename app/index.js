@@ -96,16 +96,16 @@ router.post('/distributor/:id/upload', upload.single(), function (req, res, next
     .fromString(req.body.toString('utf8'))
     .subscribe((csvLine)=>{
       console.log(csvLine);
-      // item.distributor_id = req.params.id 
-      // Product
-      // .forge(item.body)
-      // .save()
-      // .then((product) => {
-      //   res.json({id: product.id});
-      // })
-      // .catch((error) => {
-      //   console.error(error);
-      //   return res.sendStatus(500);
+    //   // item.distributor_id = req.params.id 
+    //   // Product
+    //   // .forge(item.body)
+    //   // .save()
+    //   // .then((product) => {
+    //   //   res.json({id: product.id});
+    //   // })
+    //   // .catch((error) => {
+    //   //   console.error(error);
+    //   //   return res.sendStatus(500);
     }) 
     res.end();
   })
