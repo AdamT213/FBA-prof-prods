@@ -109,10 +109,10 @@ router.post('/distributor/:id/upload', upload.single(), function (req, res, next
       // }) 
     res.end;
   }
-  .on('done', () => { 
-    console.log('done parsing'); 
-    res.end('done')
-  });
+  // .on('done', () => { 
+  //   console.log('done parsing'); 
+  //   res.end('done')
+  // });
 
 
 
