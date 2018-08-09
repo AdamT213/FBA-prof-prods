@@ -11,7 +11,6 @@ const flash = require('connect-flash');
 const csv = require('csvtojson');
 const multer  = require('multer');
 const upload = multer();
-const upload = multer({ dest: 'uploads/' });
 const ENV = process.env.NODE_ENV || 'development';
 const config = require('../knexfile');
 const db = knex(config[ENV]);
