@@ -8,7 +8,8 @@ const knex = require('knex');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const flash = require('connect-flash');
-const csv = require('csvtojson');
+var csv = require('csv-parser');
+var fs = require('fs');
 const multer  = require('multer');
 const upload = multer();
 const ENV = process.env.NODE_ENV || 'development';
@@ -91,11 +92,11 @@ router.post('/distributor/:id/upload', upload.single(), function (req, res, next
   console.log(req.body) 
   next()
 }, function (req, res, next) { 
-    console.log(req.body[0])
-    // csv({output:"line"})
-    // .fromString(JSON.stringify(req.body))
-    // .subscribe((csvLine)=>{
-    //   console.log(csvLine);
+    fs.createReadStream(req.body)
+    .pipe(csv({separator: ',', newline: '\r'}))
+    .on('data', function (data) {
+      console.log('UPC: %s ,Price: %s ,SKU: %s,Title: %s', data.UPC, data.Price, data.SKU, data.Title)
+    })
     // // //   // item.distributor_id = req.params.id 
     // // //   // Product
     // // //   // .forge(item.body)
@@ -106,16 +107,8 @@ router.post('/distributor/:id/upload', upload.single(), function (req, res, next
     // // //   // .catch((error) => {
     // // //   //   console.error(error);
     // // //   //   return res.sendStatus(500);
-    // }) 
     res.end();
-  })
-
-  // .on('done', () => { 
-  //   console.log('done parsing'); 
-  //   res.end('done')
-  // });
-
-
+    }) 
 
 // Exports for Server Hoisting.
 
