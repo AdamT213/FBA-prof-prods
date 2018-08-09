@@ -88,11 +88,10 @@ router.post('/distributors', (req, res) => {
 
 router.post('/distributor/:id/upload', upload.single(), function (req, res, next) {
   req.setTimeout(600000);
-  console.log(req); 
-  return next(res.req.body);
-})
-  // .then((req, res) => {
-  //   console.log(req)
+  // console.log(req.body); 
+  next()
+}, function (req, res, next) {
+    console.log(req)
   //   // return csv()
   //   // .fromString(req.body.toString('utf8'))
   //   // .on('json', (item) => { 
@@ -112,7 +111,8 @@ router.post('/distributor/:id/upload', upload.single(), function (req, res, next
   //   //   console.log('done parsing'); 
   //   //   resolve();
   //   // });
-  // }) 
+    res.end('done')
+  }) 
 
 
 
