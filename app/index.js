@@ -88,10 +88,10 @@ router.post('/distributors', (req, res) => {
 
 router.post('/distributor/:id/upload', upload.single(), function (req, res, next) {
   req.setTimeout(600000);
-  console.log(req.body); 
+  // console.log(req.body); 
   next()
 }, function (req, res, next) {
-    console.log(req.body)
+    // console.log(req.body)
     return csv()
     .fromString(req.body.toString('utf8'))
     .on('json', (item) => { 
