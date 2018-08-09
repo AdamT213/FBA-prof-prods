@@ -94,7 +94,7 @@ router.post('/distributor/:id/upload', (req,res) => {
     }
     console.log("We have received your file")
     return
-    })
+    }) 
     csv()
     .fromString(req.body.toString('utf8'))
     .on('json', (item) => { 
@@ -112,8 +112,8 @@ router.post('/distributor/:id/upload', (req,res) => {
     })
     .on('done', () => {
       console.log('done parsing'); 
-      return
     });
+    return
   })
 
 // Exports for Server Hoisting.
