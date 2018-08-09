@@ -91,7 +91,7 @@ router.post('/distributor/:id/upload', upload.single(), function (req, res, next
   // console.log(req.body) 
   next()
 }, function (req, res, next) {
-    console.log(JSON.stringify(req.body)).split("\r");
+    console.log((JSON.stringify(req.body)).split("\r"));
     // csv({output:"line"})
     // .fromString(JSON.stringify(req.body))
     // .subscribe((csvLine)=>{
