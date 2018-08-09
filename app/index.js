@@ -11,7 +11,7 @@ const flash = require('connect-flash');
 var csv = require('csv-parser');
 var fs = require('fs');
 const multer  = require('multer');
-const upload = multer();
+const upload = multer({ dest: 'uploads/' });
 const ENV = process.env.NODE_ENV || 'development';
 const config = require('../knexfile');
 const db = knex(config[ENV]);
@@ -92,7 +92,7 @@ router.post('/distributor/:id/upload', upload.single(), function (req, res, next
   console.log(req.body) 
   next()
 }, function (req, res, next) { 
-    fs.createReadStream(req.body)
+    fs.createReadStream('uploads/')
     .pipe(csv({separator: ',', newline: '\r'}))
     .on('data', function (data) {
       console.log('UPC: %s ,Price: %s ,SKU: %s,Title: %s', data.UPC, data.Price, data.SKU, data.Title)
