@@ -93,7 +93,7 @@ router.post('/distributor/:id/upload', (req,res) => {
       return
     }
     console.log("We have received your file")
-    return res
+    return
     })
     csv()
     .fromString(req.body.toString('utf8'))
@@ -111,7 +111,8 @@ router.post('/distributor/:id/upload', (req,res) => {
        })
     })
     .on('done', () => {
-      console.log('done parsing');
+      console.log('done parsing'); 
+      return done()
     });
   })
 
