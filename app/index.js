@@ -112,7 +112,7 @@ router.post('/distributor/:id/upload', (req,res) => {
     })
     .on('done', () => {
       console.log('done parsing'); 
-      return done()
+      return
     });
   })
 
