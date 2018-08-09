@@ -87,6 +87,7 @@ router.post('/distributors', (req, res) => {
 }); 
 
 router.post('/distributor/:id/upload', upload.single(), function (req, res, next) {
+  req.setTimeout(600 * 1000)
   console.log(req.body); 
   return res.req.body
 })
