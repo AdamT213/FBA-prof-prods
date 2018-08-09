@@ -89,32 +89,32 @@ router.post('/distributors', (req, res) => {
 router.post('/distributor/:id/upload', (req,res) => { 
   return new Promise((upload) => {
     console.log("We have received your file") 
-    .catch((error) => {
-      console.error(error);
-      return res.sendStatus(500);
-     })
-    }) 
-    .then((res) => {
-      csv()
-      .fromString(req.body.toString('utf8'))
-      .on('json', (item) => { 
-        item.distributor_id = req.params.id 
-        Product
-        .forge(item.body)
-        .save()
-        .then((product) => {
-          res.json({id: product.id});
-        })
+  })
+  .catch((error) => {
+    console.error(error);
+    return res.sendStatus(500);
+  })
+  .then((res) => {
+    csv()
+    .fromString(req.body.toString('utf8'))
+    .on('json', (item) => { 
+      item.distributor_id = req.params.id 
+      Product
+      .forge(item.body)
+      .save()
+      .then((product) => {
+        res.json({id: product.id});
+      })
       .catch((error) => {
         console.error(error);
         return res.sendStatus(500);
-       })
       })
-      .on('done', () => {
-        console.log('done parsing'); 
-      });
-    }) 
-  })
+    })
+    .on('done', () => {
+      console.log('done parsing'); 
+    });
+  }) 
+})
 
 // Exports for Server Hoisting.
 
