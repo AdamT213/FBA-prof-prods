@@ -88,24 +88,25 @@ router.post('/distributors', (req, res) => {
 
 router.post('/distributor/:id/upload', upload.single(), function (req, res, next) {
   req.setTimeout(600000);
-  // console.log(req.body); 
+  // console.log(req.body) 
   next()
 }, function (req, res, next) {
-    csv({output:"line"})
-    .fromString(JSON.stringify(req.body))
-    .subscribe((csvLine)=>{
-      console.log(csvLine);
-    // //   // item.distributor_id = req.params.id 
-    // //   // Product
-    // //   // .forge(item.body)
-    // //   // .save()
-    // //   // .then((product) => {
-    // //   //   res.json({id: product.id});
-    // //   // })
-    // //   // .catch((error) => {
-    // //   //   console.error(error);
-    // //   //   return res.sendStatus(500);
-    }) 
+    console.log(JSON.stringify(req.body)).split("\r");
+    // csv({output:"line"})
+    // .fromString(JSON.stringify(req.body))
+    // .subscribe((csvLine)=>{
+    //   console.log(csvLine);
+    // // //   // item.distributor_id = req.params.id 
+    // // //   // Product
+    // // //   // .forge(item.body)
+    // // //   // .save()
+    // // //   // .then((product) => {
+    // // //   //   res.json({id: product.id});
+    // // //   // })
+    // // //   // .catch((error) => {
+    // // //   //   console.error(error);
+    // // //   //   return res.sendStatus(500);
+    // }) 
     res.end();
   })
 
