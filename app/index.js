@@ -10,7 +10,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const flash = require('connect-flash');
 const csv=require('csvtojson');
 const multer  = require('multer');
-const upload = multer().single();
+const upload = multer();
 const ENV = process.env.NODE_ENV || 'development';
 const config = require('../knexfile');
 const db = knex(config[ENV]);
@@ -86,9 +86,9 @@ router.post('/distributors', (req, res) => {
     });
 }); 
 
-router.post('/distributor/:id/upload', upload(), function (req, res, next) {
+router.post('/distributor/:id/upload', upload.single(), function (req, res, next) {
   console.log(req); 
-  console.log("Adam is a stupid faggot")
+  console.log("Adam is a stupid faggot");
   console.log(res); 
   return res;
 })
