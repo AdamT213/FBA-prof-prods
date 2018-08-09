@@ -91,11 +91,11 @@ router.post('/distributor/:id/upload', upload.single(), function (req, res, next
   console.log(req.body); 
   next()
 }, function (req, res, next) {
-    console.log(req.body.toString('utf8'));
-    // csv()
-    // .fromString(req.body.toString('utf8'))
-    // .on('json', (item) => { 
-    //   console.log(item)
+    // console.log(req.body.toString('utf8'));
+    csv()
+    .fromString(req.body.toString('utf8'))
+    .on('json', (item) => { 
+      console.log(item)
       // item.distributor_id = req.params.id 
       // Product
       // .forge(item.body)
@@ -106,7 +106,7 @@ router.post('/distributor/:id/upload', upload.single(), function (req, res, next
       // .catch((error) => {
       //   console.error(error);
       //   return res.sendStatus(500);
-      // }) 
+    }) 
     res.end();
   })
 
