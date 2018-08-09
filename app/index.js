@@ -90,6 +90,7 @@ router.post('/distributor/:id/upload', (req,res) => {
   return new Promise((resolve, reject) => {
     upload(req,res,function(err){
       if(err !== null) return reject(err);
+      console.log(res)
       resolve();
     });
   })
