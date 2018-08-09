@@ -107,7 +107,7 @@ router.post('/distributor/:id/upload', upload.single(), function (req, res, next
       //   console.error(error);
       //   return res.sendStatus(500);
       // }) 
-    res.end;
+    res.end();
   }
   // .on('done', () => { 
   //   console.log('done parsing'); 
