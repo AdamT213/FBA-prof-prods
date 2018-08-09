@@ -88,9 +88,9 @@ router.post('/distributors', (req, res) => {
 
 router.post('/distributor/:id/upload', upload.single(), function (req, res, next) {
   req.setTimeout(600000);
-  // console.log(req.body); 
+  console.log(req.body); 
   next()
-}), function (req, res, next) {
+}, function (req, res, next) {
     console.log(req.body.toString('utf8'));
     // csv()
     // .fromString(req.body.toString('utf8'))
@@ -108,7 +108,8 @@ router.post('/distributor/:id/upload', upload.single(), function (req, res, next
       //   return res.sendStatus(500);
       // }) 
     res.end();
-  }
+  })
+
   // .on('done', () => { 
   //   console.log('done parsing'); 
   //   res.end('done')
