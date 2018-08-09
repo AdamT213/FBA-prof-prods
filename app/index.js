@@ -92,10 +92,10 @@ router.post('/distributor/:id/upload', upload.single(), function (req, res, next
   next()
 }, function (req, res, next) {
     // console.log(req.body.toString('utf8'));
-    csv()
+    csv({output:"line"})
     .fromString(req.body.toString('utf8'))
-    .then((jsonObj)=>{
-      console.log(jsonObj);
+    .subscribe((csvLine)=>{
+      console.log(csvLine);
       // item.distributor_id = req.params.id 
       // Product
       // .forge(item.body)
