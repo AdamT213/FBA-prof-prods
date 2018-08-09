@@ -94,6 +94,7 @@ router.post('/distributor/:id/upload', (req,res) => {
         return
       }
       console.log("We have received your file")
+      return
     }) 
   })
   .then(() => {
