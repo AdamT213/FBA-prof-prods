@@ -87,10 +87,9 @@ router.post('/distributors', (req, res) => {
 }); 
 
 router.post('/distributor/:id/upload', upload.single(), function (req, res, next) {
-  console.log(req.body); 
-  console.log("Adam is a stupid faggot");
-  console.log(next); 
-  return res(req.body);
+  // console.log(req.body); 
+  console.log(res)
+  return res
 })
   // .then((req, res) => {
   //   console.log(req)
