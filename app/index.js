@@ -9,6 +9,8 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const flash = require('connect-flash');
 const csv=require('csvtojson');
+const multer  = require('multer');
+const upload = multer().single();
 const ENV = process.env.NODE_ENV || 'development';
 const config = require('../knexfile');
 const db = knex(config[ENV]);
@@ -85,24 +87,31 @@ router.post('/distributors', (req, res) => {
 }); 
 
 router.post('/distributor/:id/upload', (req,res) => { 
-  csv()
-  .fromString(req.body.toString('utf8'))
-  .on('json', (item) => { 
-    item.distributor_id = distributor.id 
-    Product
-      .forge(item.body)
-      .save()
-      .then((product) => {
-        res.json({id: product.id});
-      })
-      .catch((error) => {
-        console.error(error);
-        return res.sendStatus(500);
-       })
-    })
-    .on('done', () => {
-      console.log('done parsing');
-    });
+  upload(req, res, function (err) {
+    if (err) {
+      console.error("An error occurred when uploading. Please try again. Note that you may only upload one file at a time, and we only support.csv files.")
+      return
+    }
+    console.log("We have received your file")
+  })
+  // csv()
+  // .fromString(req.body.toString('utf8'))
+  // .on('json', (item) => { 
+  //   item.distributor_id = distributor.id 
+  //   Product
+  //     .forge(item.body)
+  //     .save()
+  //     .then((product) => {
+  //       res.json({id: product.id});
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //       return res.sendStatus(500);
+  //      })
+  //   })
+  //   .on('done', () => {
+  //     console.log('done parsing');
+  //   });
 }); 
 
 // Exports for Server Hoisting.
