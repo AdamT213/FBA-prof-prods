@@ -87,12 +87,12 @@ router.post('/distributors', (req, res) => {
 }); 
 
 router.post('/distributor/:id/upload', (req,res) => { 
-  return new Promise((upload, err) => {
-    if (err) {
-      console.error(err)
-      return
-    }
-    console.log("We have received your file")
+  return new Promise((upload) => {
+    console.log("We have received your file") 
+    .catch((error) => {
+      console.error(error);
+      return res.sendStatus(500);
+     })
     }) 
     .then((res) => {
       csv()
