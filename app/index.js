@@ -88,14 +88,14 @@ router.post('/distributors', (req, res) => {
     });
 }); 
 
-router.post('/distributor/:id/upload', upload.single(), function (req, res, next) {
+router.post('/distributor/:id/upload', upload.single('newFile'), function (req, res, next) {
   req.setTimeout(600000);
-  // console.log(req.body) 
+  console.log(req.body) 
   next()
 }, function (req, res, next) { 
   csv()
     .fromString(__dirname, '../public/upload/temp')
-    .subscribe((csvLine)=>{
+    .subscribe((csvLine) => {
       console.log(csvLine); 
     })
     // // //   // item.distributor_id = req.params.id 
