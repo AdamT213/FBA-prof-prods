@@ -95,7 +95,7 @@ router.post('/distributor/:id/upload', upload.single(), function (req, res, next
     csv()
     .fromString(req.body.toString('utf8'))
     .on('json', (item) => { 
-      console.log(item)
+      console.log("Adam")
       // item.distributor_id = req.params.id 
       // Product
       // .forge(item.body)
