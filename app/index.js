@@ -89,7 +89,9 @@ router.post('/distributors', (req, res) => {
 router.post('/distributor/:id/upload', (req,res) => { 
   return new Promise((resolve, reject) => {
     upload(req,res,function(err){
-      if(err !== null) return reject(err);
+      if(err !== null) 
+        reject(err);
+        return res.sendStatus(500);
       console.log(res)
       resolve(res);
     });
