@@ -86,16 +86,12 @@ router.post('/distributors', (req, res) => {
     });
 }); 
 
-router.post('/distributor/:id/upload', (req,res) => { 
-  return new Promise((resolve, reject) => {
-    upload(req,res,function(err){
-      console.log(res)
-      resolve(res);
-    })
-    .catch((err) => { 
-      reject(err);
-    })
-  })
+router.post('/distributor/:id/upload', upload(), function (req, res, next) {
+  console.log(req); 
+  console.log("Adam is a stupid faggot")
+  console.log(res); 
+  return res;
+})
   // .then((req, res) => {
   //   console.log(req)
   //   // return csv()
@@ -118,7 +114,7 @@ router.post('/distributor/:id/upload', (req,res) => {
   //   //   resolve();
   //   // });
   // }) 
-})
+
 
 
 // Exports for Server Hoisting.
