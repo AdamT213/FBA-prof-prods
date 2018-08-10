@@ -86,10 +86,10 @@ router.post('/distributors', (req, res) => {
     });
 }); 
 
-router.post('/distributor/:id/upload', upload.single('newFile'), function (req, res, next) {
+router.post('/distributor/:id/upload', upload.any(), function (req, res, next) {
   req.setTimeout(600000);
   console.log(req)
-  // console.log(req.file) 
+  console.log(req.files) 
   next()
 }, function (req, res, next) { 
   csv()
