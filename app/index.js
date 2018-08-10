@@ -10,9 +10,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const flash = require('connect-flash');
 const csv = require('csvtojson');
 const multer  = require('multer');
-const upload = multer({
-  dest: path.join(__dirname, '../public/upload/temp')
-});
+const upload = multer();
 const ENV = process.env.NODE_ENV || 'development';
 const config = require('../knexfile');
 const db = knex(config[ENV]);
@@ -90,11 +88,12 @@ router.post('/distributors', (req, res) => {
 
 router.post('/distributor/:id/upload', upload.single('newFile'), function (req, res, next) {
   req.setTimeout(600000);
+  console.log(req.body)
   console.log(req.file) 
   next()
 }, function (req, res, next) { 
   csv()
-    .fromString(__dirname, '../public/upload/temp')
+    .fromFile(req.file.path)
     .subscribe((csvLine) => {
       console.log(csvLine); 
     })
