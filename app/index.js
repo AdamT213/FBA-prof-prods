@@ -92,11 +92,11 @@ router.post('/distributor/:id/upload', upload.none(), function (req, res, next) 
   console.log(req.files) 
   next()
 }, function (req, res, next) { 
-  csv()
-    .fromFile(req.file.path)
-    .subscribe((csvLine) => {
-      console.log(csvLine); 
-    })
+  // csv()
+  //   .fromFile(req.file.path)
+  //   .subscribe((csvLine) => {
+  //     console.log(csvLine); 
+  //   })
     // // //   // item.distributor_id = req.params.id 
     // // //   // Product
     // // //   // .forge(item.body)
