@@ -19,9 +19,11 @@ require('dotenv').config()
 // Initialize Express.
 const app = express();
 const router = express.Router();
-// app.use(bodyParser.urlencoded({limit: '50mb',
-// extended: true}));
-// app.use(bodyParser.json({limit: '50mb'}));
+// create application/json parser
+const jsonParser = bodyParser.json()
+
+// create application/x-www-form-urlencoded parser
+const urlencodedParser = bodyParser.urlencoded({ extended: false })
 app.use(session({ secret: 'some secret' }));
 app.use(flash());
 app.use(cookieParser());
@@ -71,7 +73,7 @@ router.get('/distributor/:id', (req,res) => {
     });
 });
 
-router.post('/distributors', (req, res) => {
+router.post('/distributors', urlencodedParser, jsonParser, (req, res) => {
   if(_.isEmpty(req.body))
     return res.sendStatus(400);
   Distributor
@@ -86,20 +88,21 @@ router.post('/distributors', (req, res) => {
     });
 }); 
 
-router.post('/distributor/:id/upload', upload.none(), function (req, res, next, error) {
+router.post('/distributor/:id/upload', upload.single(), function (req, res, next, error) {
   req.setTimeout(600000);
-  console.log(req)
-  console.log(req.files) 
+  console.log(req);
+  console.log(req.file);
   if (error) { 
-    console.error(error)
+    console.error(error) 
+    res.sendStatus(500)
   }
   next()
 }, function (req, res, next) { 
-  // csv()
-  //   .fromFile(req.file.path)
-  //   .subscribe((csvLine) => {
-  //     console.log(csvLine); 
-  //   })
+  csv()
+    .fromFile(req.file.path)
+    .then((jsonObj)=>{
+      console.log(jsonObj);
+    })
     // // //   // item.distributor_id = req.params.id 
     // // //   // Product
     // // //   // .forge(item.body)
