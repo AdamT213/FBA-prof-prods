@@ -88,8 +88,7 @@ router.post('/distributors', (req, res) => {
 
 router.post('/distributor/:id/upload', upload.single('newFile'), function (req, res, next) {
   req.setTimeout(600000);
-  console.log(upload)
-  // console.log(req.body)
+  console.log(req)
   // console.log(req.file) 
   next()
 }, function (req, res, next) { 
