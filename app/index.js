@@ -98,11 +98,11 @@ router.post('/distributor/:id/upload', upload.single(), function (req, res, next
   }
   next()
 }, function (req, res, next) { 
-  csv()
-    .fromFile(req.file.path)
-    .then((jsonObj)=>{
-      console.log(jsonObj);
-    })
+  // csv()
+  //   .fromFile(req.file.path)
+  //   .then((jsonObj)=>{
+  //     console.log(jsonObj);
+  //   })
     // // //   // item.distributor_id = req.params.id 
     // // //   // Product
     // // //   // .forge(item.body)
