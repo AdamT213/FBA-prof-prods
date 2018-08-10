@@ -86,7 +86,7 @@ router.post('/distributors', (req, res) => {
     });
 }); 
 
-router.post('/distributor/:id/upload', upload.none(), function (req, res, next) {
+router.post('/distributor/:id/upload', upload.none(), function (req, res, next, error) {
   req.setTimeout(600000);
   console.log(req)
   console.log(req.files) 
