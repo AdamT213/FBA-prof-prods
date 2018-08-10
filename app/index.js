@@ -90,7 +90,7 @@ router.post('/distributors', (req, res) => {
 
 router.post('/distributor/:id/upload', upload.single('newFile'), function (req, res, next) {
   req.setTimeout(600000);
-  console.log(req) 
+  console.log(req.body.innerText) 
   next()
 }, function (req, res, next) { 
   csv()
