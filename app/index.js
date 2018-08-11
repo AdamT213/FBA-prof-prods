@@ -99,7 +99,9 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
     return res.sendStatus(500)
   }
   next()
-}, function (req, res, next) { 
+}, function (req, res, next) {  
+    console.log(req) 
+    console.log(req.file)
   // csv()
   //   .fromFile(req.file.path)
   //   .then((jsonObj)=>{
