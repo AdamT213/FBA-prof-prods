@@ -31,7 +31,7 @@ app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/api', router); 
-app.use(cors())
+router.use(cors())
 
 
 // Configure & Initialize Bookshelf & Knex.
