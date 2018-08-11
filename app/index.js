@@ -91,8 +91,7 @@ router.post('/distributors', urlencodedParser, jsonParser, (req, res) => {
     });
 }); 
 
-router.post('/distributor/:id/upload', upload.array(), function (err,req, res, next ) { 
-  console.log("Adam")
+router.post('/distributor/:id/upload', upload.any(), function (err,req, res, next ) { 
   console.log(req);
   console.log(req.files);
   if (err) { 
