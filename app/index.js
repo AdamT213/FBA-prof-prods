@@ -93,7 +93,7 @@ router.post('/distributors', urlencodedParser, jsonParser, (req, res) => {
 
 router.post('/distributor/:id/upload', upload.single('file'), function (err,req, res, next ) { 
   console.log(req);
-  console.log(req.files);
+  console.log(req.file);
   if (err) { 
     console.error(err) 
     return res.sendStatus(500)
