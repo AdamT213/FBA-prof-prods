@@ -91,12 +91,13 @@ router.post('/distributors', urlencodedParser, jsonParser, (req, res) => {
     });
 }); 
 
-router.post('/distributor/:id/upload', upload.single(), function (req, res, next, error) {
+router.post('/distributor/:id/upload', upload.single(), function (req, res, next, error) { 
+  return req.setTimeout(600000);
   console.log(req);
   console.log(req.file);
   if (error) { 
     console.error(error) 
-    res.sendStatus(500)
+    return res.sendStatus(500)
   }
   next()
 }, function (req, res, next) { 
