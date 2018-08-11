@@ -103,7 +103,7 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
     console.log(req) 
     console.log(req.file)
   csv()
-    .fromFile(req.file.path)
+    .fromFile(req.file.buffer)
     .then((jsonObj)=>{
       console.log(jsonObj);
     })
