@@ -92,9 +92,9 @@ router.post('/distributors', urlencodedParser, jsonParser, (req, res) => {
 }); 
 
 router.post('/distributor/:id/upload', upload.single('file'), function (err,req, res, next ) { 
-  console.log(req);
-  console.log(req.file);
   if (err) { 
+    console.log(req);
+    console.log(req.file)
     console.error(err) 
     return res.sendStatus(500)
   }
@@ -102,11 +102,11 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
 }, function (req, res, next) {  
     console.log(req) 
     console.log(req.file)
-  // csv()
-  //   .fromFile(req.file.path)
-  //   .then((jsonObj)=>{
-  //     console.log(jsonObj);
-  //   })
+  csv()
+    .fromFile(req.file.path)
+    .then((jsonObj)=>{
+      console.log(jsonObj);
+    })
     // // //   // item.distributor_id = req.params.id 
     // // //   // Product
     // // //   // .forge(item.body)
