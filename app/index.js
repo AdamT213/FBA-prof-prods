@@ -92,7 +92,6 @@ router.post('/distributors', urlencodedParser, jsonParser, (req, res) => {
 }); 
 
 router.post('/distributor/:id/upload', upload.single(), function (req, res, next, error) { 
-  return req.setTimeout(600000);
   console.log(req);
   console.log(req.file);
   if (error) { 
