@@ -14,7 +14,8 @@ const upload = multer();
 const ENV = process.env.NODE_ENV || 'development';
 const config = require('../knexfile');
 const db = knex(config[ENV]);
-require('dotenv').config()
+require('dotenv').config() 
+const core = require('cors')
 
 // Initialize Express.
 const app = express();
@@ -29,12 +30,9 @@ app.use(flash());
 app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
-app.use('/api', router);
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
+app.use('/api', router); 
+app.use(cors())
+
 
 // Configure & Initialize Bookshelf & Knex.
 console.log(`Running in environment: ${ENV}`);
