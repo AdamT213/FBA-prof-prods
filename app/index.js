@@ -15,7 +15,7 @@ const ENV = process.env.NODE_ENV || 'development';
 const config = require('../knexfile');
 const db = knex(config[ENV]);
 require('dotenv').config() 
-const core = require('cors')
+const cors = require('cors')
 
 // Initialize Express.
 const app = express();
