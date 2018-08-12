@@ -117,10 +117,6 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
           .then((prod) => {
             console.log({id: prod.id})
           })
-          // .catch((error) => {
-          //   console.error(error);
-          //   return res.sendStatus(500);
-          // }) 
           return resolve(res.end())
         })
       });
