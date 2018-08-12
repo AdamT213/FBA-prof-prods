@@ -127,7 +127,7 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
           // }) 
           return resolve()
         })
-      },onError,onComplete);
+      });
     })
 
 
