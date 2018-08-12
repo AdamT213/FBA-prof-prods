@@ -112,17 +112,17 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
           product.UPC = json.UPC 
           product.price = json.Price 
           console.log(product)
-          // Product
-          // .forge(product)
-          // .save()
-          // .then((prod) => {
-          //   res.json({id: prod.id});
-          // })
-          // .catch((error) => {
-          //   console.error(error);
-          //   return res.sendStatus(500);
-          // }) 
-          return resolve()
+          Product
+          .forge(product)
+          .save()
+          .then((prod) => {
+            res.json({id: prod.id});
+          })
+          .catch((error) => {
+            console.error(error);
+            return res.sendStatus(500);
+          }) 
+          return resolve(res.end())
         })
       });
     })
