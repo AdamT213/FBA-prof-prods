@@ -106,15 +106,12 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
       .fromFile(req.file.path)
       .subscribe((json)=>{
         return new Promise((resolve,reject)=>{
-          console.log(json.Title) 
-          // console.log(jsonObj.Title) 
-          // console.log(jsonObj.SKU)
-          // let product = new Item(jsonObj.Title); 
-          // product.distributor_id = req.params.id 
-          // product.SKU = jsonObj.SKU 
-          // product.UPC = jsonObj.UPC 
-          // product.price = jsonObj.Price 
-          // console.log(product)
+          let product = new Item(json.Title); 
+          product.distributor_id = req.params.id 
+          product.SKU = json.SKU 
+          product.UPC = json.UPC 
+          product.price = json.Price 
+          console.log(product)
           // Product
           // .forge(product)
           // .save()
