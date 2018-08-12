@@ -8,6 +8,7 @@ const knex = require('knex');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const flash = require('connect-flash');
+const request=require('request')
 const csv = require('csvtojson');
 const multer  = require('multer');
 const upload = multer({ dest: 'uploads/' });
@@ -102,30 +103,33 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
 }, function (req, res, next) {  
     console.log(req.file);
     csv()
-      .fromFile(req.file.path)
-      .then((jsonObj)=>{ 
-        console.log(jsonObj) 
-        console.log(jsonObj.Title) 
-        console.log(jsonObj.SKU)
-        // let product = new Item(jsonObj.Title); 
-        // product.distributor_id = req.params.id 
-        // product.SKU = jsonObj.SKU 
-        // product.UPC = jsonObj.UPC 
-        // product.price = jsonObj.Price 
-        // console.log(product)
-        // Product
-        // .forge(product)
-        // .save()
-        // .then((prod) => {
-        //   res.json({id: prod.id});
-        // })
-        // .catch((error) => {
-        //   console.error(error);
-        //   return res.sendStatus(500);
-        // })
-    res.end() 
-  }) 
-}) 
+      .fromStream(request.get(req.file.path))
+      .subscribe((json)=>{
+        return new Promise((resolve,reject)=>{
+          console.log(json) 
+          // console.log(jsonObj.Title) 
+          // console.log(jsonObj.SKU)
+          // let product = new Item(jsonObj.Title); 
+          // product.distributor_id = req.params.id 
+          // product.SKU = jsonObj.SKU 
+          // product.UPC = jsonObj.UPC 
+          // product.price = jsonObj.Price 
+          // console.log(product)
+          // Product
+          // .forge(product)
+          // .save()
+          // .then((prod) => {
+          //   res.json({id: prod.id});
+          // })
+          // .catch((error) => {
+          //   console.error(error);
+          //   return res.sendStatus(500);
+          // }) 
+          return resolve()
+        })
+      },onError,onComplete);
+    })
+
 
 //class constructor to aid in saving products from parsed items 
 class Item {
