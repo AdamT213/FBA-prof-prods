@@ -103,13 +103,16 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
     console.log(req.file);
     csv()
       .fromFile(req.file.path)
-      .then((jsonObj)=>{
-        let product = new Item(jsonObj.Title); 
-        product.distributor_id = req.params.id 
-        product.SKU = jsonObj.SKU 
-        product.UPC = jsonObj.UPC 
-        product.price = jsonObj.Price 
-        console.log(product)
+      .then((jsonObj)=>{ 
+        console.log(jsonObj) 
+        console.log(jsonObj.Title) 
+        console.log(jsonObj.SKU)
+        // let product = new Item(jsonObj.Title); 
+        // product.distributor_id = req.params.id 
+        // product.SKU = jsonObj.SKU 
+        // product.UPC = jsonObj.UPC 
+        // product.price = jsonObj.Price 
+        // console.log(product)
         // Product
         // .forge(product)
         // .save()
