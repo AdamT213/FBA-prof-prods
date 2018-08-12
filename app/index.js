@@ -101,23 +101,35 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
   next()
 }, function (req, res, next) {  
     console.log(req.file);
-  csv()
-    .fromFile(req.file.path)
-    .then((jsonObj)=>{
-      console.log(jsonObj);
-    })
-    // // //   // item.distributor_id = req.params.id 
-    // // //   // Product
-    // // //   // .forge(item.body)
-    // // //   // .save()
-    // // //   // .then((product) => {
-    // // //   //   res.json({id: product.id});
-    // // //   // })
-    // // //   // .catch((error) => {
-    // // //   //   console.error(error);
-    // // //   //   return res.sendStatus(500);
-  res.end() 
+    csv()
+      .fromFile(req.file.path)
+      .then((jsonObj)=>{
+        let product = Item.new(jsonObj.Title); 
+        product.distributor_id = req.params.id 
+        product.SKU = jsonObj.SKU 
+        product.UPC = jsonObj.UPC 
+        product.price = jsonObj.Price 
+        console.log(product)
+        // Product
+        // .forge(product)
+        // .save()
+        // .then((prod) => {
+        //   res.json({id: prod.id});
+        // })
+        // .catch((error) => {
+        //   console.error(error);
+        //   return res.sendStatus(500);
+        // })
+    res.end() 
+  }) 
 }) 
+
+//class constructor to aid in saving products from parsed items 
+class Item {
+  constructor(title) {
+    this.title = title;   
+  }
+}
 
 // Exports for Server Hoisting.
 
