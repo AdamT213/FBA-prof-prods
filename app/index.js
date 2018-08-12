@@ -104,7 +104,7 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
     csv()
       .fromFile(req.file.path)
       .then((jsonObj)=>{
-        let product = Item.new(jsonObj.Title); 
+        let product = new Item(jsonObj.Title); 
         product.distributor_id = req.params.id 
         product.SKU = jsonObj.SKU 
         product.UPC = jsonObj.UPC 
