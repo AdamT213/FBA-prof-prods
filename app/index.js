@@ -110,7 +110,7 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
           product.distributor_id = req.params.id 
           product.SKU = json.SKU 
           product.UPC = json.UPC 
-          product.price = json.Price 
+          product.Price = json.Price 
           console.log(product)
           Product
           .forge(product)
