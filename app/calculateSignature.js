@@ -3,20 +3,22 @@ const agent = require('superagent')
 const moment = require('moment')
 
 //moment.js UTC format seems to be the only thing MWS accepts as valid ISO 8601
-var timestamp = moment().utc().format("YYYY-MM-DDTHH:mm:ss") + "Z"
-
+var timestamp = moment().utc().format("YYYY-MM-DDTHH:mm:ss.sss") + "Z"
 
 exports.generateSignature = () => { 
 
-  var Message = "POST" + "\n" + "https://mws.amazonservices.com/" + "\n" + "/Products/2011-10-01" + "\n" + "AWSAccessKeyId=" + encodeURIComponent('AKIAJO5TPTZ5YGGPNGQA') + "&Action=" + encodeURIComponent('GetMatchingProductForId') + "&SignatureMethod=" + encodeURIComponent('HmacSHA256') + "&SignatureVersion=" + encodeURIComponent('2') + "&Timestamp=" + encodeURIComponent(timestamp) + "&Version=" + encodeURIComponent("2011-10-01"); 
+  var Message = "POST" + "\n" + "mws.amazonservices.com" + "\n" + "/Products/2011-10-01" + "\n" + "AWSAccessKeyId=" + encodeURIComponent('AKIAJO5TPTZ5YGGPNGQA') + "&Action=" + encodeURIComponent('GetMatchingProductForId') + "&IdList.Id.1=" + encodeURIComponent('043171884536') + "&IdType=" + encodeURIComponent('UPC') + "&MarketplaceId=" + encodeURIComponent('ATVPDKIKX0DER') + "&SellerId=" + encodeURIComponent('A1N0R958ET8VVH') + "&SignatureMethod=" + encodeURIComponent('HmacSHA256') + "&SignatureVersion=" + encodeURIComponent('2') + "&Timestamp=" + encodeURIComponent('2018-08-14T19:08:45.4545Z')
+  + "&Version=" + encodeURIComponent("2011-10-01"); 
 
   var secret = "IrgC8kn+R2WirgIbM8N+hLHUjAS/6CLWvf1dzLcd";
 
   var hash = CryptoJS.HmacSHA256(Message, secret);
   
   var hashInBase64 = CryptoJS.enc.Base64.stringify(hash);
+
+  console.log(timestamp)
   
-  return encodeURIComponent(hashInBase64)
+  return hashInBase64 
 
 } 
 
@@ -30,17 +32,17 @@ exports.sendRequest = () => {
   return agent
     .post('https://mws.amazonservices.com/Products/2011-10-01')
     .query({
-      AWSAccessKeyId: 'AKIAJO5TPTZ5YGGPNGQA',
-      Action: 'GetMatchingProductForId',
-      SellerId: 'A1N0R958ET8VVH',
-      SignatureVersion: '2',
-      Timestamp: timestamp,
-      Version: '2011-10-01',
-      Signature: exports.generateSignature(),
-      SignatureMethod: 'HmacSHA256',
-      MarketplaceId: 'ATVPDKIKX0DER',
-      IdType: 'UPC',
-      'IdList.Id.1': '043171884536'
+      'Action': encodeURIComponent('GetMatchingProductForId'),
+      'AWSAccessKeyId': encodeURIComponent('AKIAJO5TPTZ5YGGPNGQA'),
+      'IdList.Id.1': encodeURIComponent('043171884536'),
+      'IdType': encodeURIComponent('UPC'),
+      'MarketplaceId': encodeURIComponent('ATVPDKIKX0DER'),
+      'SellerId': encodeURIComponent('A1N0R958ET8VVH'),
+      'Signature': encodeURIComponent(exports.generateSignature()),
+      'SignatureMethod': encodeURIComponent('HmacSHA256'),
+      'SignatureVersion': encodeURIComponent('2'),
+      'Timestamp': encodeURIComponent('2018-08-14T19:08:45.4545Z'),
+      'Version': encodeURIComponent('2011-10-01')  
     })
     .then(res => {
       console.log('here is the response');
