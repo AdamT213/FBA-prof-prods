@@ -6,6 +6,7 @@ const xml2js = require('xml2js');
 //moment.js UTC format seems to be the only thing MWS accepts as valid ISO 8601
 var timestamp = moment().utc().format("YYYY-MM-DDTHH:mm:ss.sss") + "Z"
 
+//generates the signature needed to sign the request to the amazon mws endpoint. Will need to programmatically include the UPC as a param, since each UPC generates a unique signature
 exports.generateSignature = () => { 
 
   var Message = "POST" + "\n" + "mws.amazonservices.com" + "\n" + "/Products/2011-10-01" + "\n" + "AWSAccessKeyId=" + encodeURIComponent('AKIAJO5TPTZ5YGGPNGQA') + "&Action=" + encodeURIComponent('GetMatchingProductForId') + "&IdList.Id.1=" + encodeURIComponent('043171884536') + "&IdType=" + encodeURIComponent('UPC') + "&MarketplaceId=" + encodeURIComponent('ATVPDKIKX0DER') + "&SellerId=" + encodeURIComponent('A1N0R958ET8VVH') + "&SignatureMethod=" + encodeURIComponent('HmacSHA256') + "&SignatureVersion=" + encodeURIComponent('2') + "&Timestamp=" + encodeURIComponent(timestamp)
@@ -36,7 +37,8 @@ function myParse (res, cb) {
 }
 agent.parse['application/xml'] = myParse;
 
-exports.sendRequest = () => {
+//send request to Amazon MWS Products to retrieve Price and ASIN info. If price is greater than the price of the item, another request will be sent to estimate the amazon fees. If the fees + the cost are less than the selling price obtained here, i.e., there is a profit margin, the item will be saved to the db as a product
+exports.getPriceandASIN = () => {
  
   return agent
     .post('https://mws.amazonservices.com/Products/2011-10-01') 
@@ -56,8 +58,9 @@ exports.sendRequest = () => {
     .buffer(true).parse(myParse) 
     .then(res => {
       console.log('here is the response');
-      console.log(res.body.GetMatchingProductForIdResponse.GetMatchingProductForIdResult);
-    })
+      console.log(res.body); 
+    return {ASIN: res.body.GetMatchingProductForIdResponse.GetMatchingProductForIdResult[0].Products[0].Product[0].Identifiers[0].MarketplaceASIN[0].ASIN, Price: res.body.GetMatchingProductForIdResponse.GetMatchingProductForIdResult[0].Products[0].Product[0].AttributeSets[0]['ns2:ItemAttributes'][0]['ns2:ListPrice'][0]['ns2:Amount'][0]}
+    }) 
     .catch(error => {
       console.log('here is the error');
       console.log(error);
