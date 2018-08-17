@@ -112,36 +112,41 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
           product.distributor_id = req.params.id 
           product.SKU = json.SKU 
           product.UPC = json.UPC 
-          product.Price = json.Price  
+          product.Price = json.Price 
+          return resolve(product) 
           //make request to Amazon for product info, including selling price and ASIN 
-          var productInfo = getPriceandASIN.getPriceandASIN(product.UPC) 
-          //will return null if no product matching UPC is found
-          if (productInfo.ASIN !== null && productInfo.Price !== null) {
-            product.ASIN = productInfo.ASIN 
-            product.retailSellingPrice = productInfo.Price 
-            //Use ASIN to make request to Amazon for estimated fees, if and only if the selling price is greater than the buying price 
-            if (product.retailSellingPrice > product.Price) { 
-              var feeEstimateInfo = getFeesEstimate(product.ASIN, product.retailSellingPrice) 
-              product.amazonFees = feeEstimateInfo.Amount 
-              //calculate selling price - buying price - fees to see if product is profitable
-              var profitability = product.retailSellingPrice - product.Price - Product.amazonFees 
-              //save product to db if it is profitable
-              if (profitability > 0) { 
-                product.isProfitable = true 
-                product.profitMargin = profitability/retailSellingPrice
-                Product
-                .forge(product)
-                .save()
-                .then((prod) => {
-                  console.log({id: prod.id})
-                }) 
-              }
-            } 
-          } 
-          else { 
-            return resolve(res.end())
-          }
-          return resolve(res.end())
+        }).then((product) => {
+            var productInfo = getPriceandASIN.getPriceandASIN(product.UPC) 
+            return productInfo 
+        }).then((info) => { 
+          console.log(info)
+          // //will return null if no product matching UPC is found
+          // if (info.ASIN !== null && info.Price !== null) {
+          //   product.ASIN = info.ASIN 
+          //   product.retailSellingPrice = info.Price 
+          //   //Use ASIN to make request to Amazon for estimated fees, if and only if the selling price is greater than the buying price 
+          //   if (product.retailSellingPrice > product.Price) { 
+          //     var feeEstimateInfo = getFeesEstimate(product.ASIN, product.retailSellingPrice) 
+          //     product.amazonFees = feeEstimateInfo.Amount 
+          //     //calculate selling price - buying price - fees to see if product is profitable
+          //     var profitability = product.retailSellingPrice - product.Price - Product.amazonFees 
+          //     //save product to db if it is profitable
+          //     if (profitability > 0) { 
+          //       product.isProfitable = true 
+          //       product.profitMargin = profitability/retailSellingPrice
+          //       Product
+          //       .forge(product)
+          //       .save()
+          //       .then((prod) => {
+          //         console.log({id: prod.id})
+          //       }) 
+          //     }
+          //   } 
+          // } 
+          // else { 
+          //   return resolve(res.end())
+          // }
+          // return resolve(res.end())
         })
       });
     })
