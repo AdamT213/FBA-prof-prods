@@ -5,7 +5,8 @@ const xml2js = require('xml2js');
 
 //generates the signature needed to sign the request to the amazon mws endpoint. Needs to programmatically include the UPC as a param, since each UPC generates a unique signature
 var generateSignatureForProductInfo = (UPC) => { 
-
+ 
+  console.log(UPC)
   //moment.js UTC format seems to be the only thing MWS accepts as valid ISO 8601
   var timestamp = moment().utc().format("YYYY-MM-DDTHH:mm:ss.sss") + "Z"
 
@@ -40,6 +41,7 @@ agent.parse['application/xml'] = myParse;
 //send request to Amazon MWS Products to retrieve Price and ASIN info. If price is greater than the price of the item, another request will be sent to estimate the amazon fees. If the fees + the cost are less than the selling price obtained here, i.e., there is a profit margin, the item will be saved to the db as a product
 exports.getPriceandASIN = (UPC) => { 
 
+  var amazonUPC= '0' + UPC
   var timestamp = moment().utc().format("YYYY-MM-DDTHH:mm:ss.sss") + "Z"
  
   return agent
@@ -47,11 +49,11 @@ exports.getPriceandASIN = (UPC) => {
     .query({
       'Action': 'GetMatchingProductForId',
       'AWSAccessKeyId': 'AKIAJO5TPTZ5YGGPNGQA',
-      'IdList.Id.1': UPC,
+      'IdList.Id.1': amazonUPC,
       'IdType': 'UPC',
       'MarketplaceId': 'ATVPDKIKX0DER',
       'SellerId': 'A1N0R958ET8VVH',
-      'Signature': generateSignatureForProductInfo(UPC),
+      'Signature': generateSignatureForProductInfo(amazonUPC),
       'SignatureMethod': 'HmacSHA256',
       'SignatureVersion': '2',
       'Timestamp': timestamp,
@@ -69,4 +71,4 @@ exports.getPriceandASIN = (UPC) => {
     })
 } 
 
-// console.log(exports.getPriceandASIN())
+console.log(exports.getPriceandASIN('43171884536'))

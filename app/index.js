@@ -114,7 +114,6 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
           product.UPC = json.UPC 
           product.Price = json.Price  
           //make request to Amazon for product info, including selling price and ASIN 
-          console.log(getPriceandASIN.getPriceandASIN())
           var productInfo = getPriceandASIN.getPriceandASIN(product.UPC)
           product.ASIN = productInfo.ASIN 
           product.retailSellingPrice = productInfo.Price 
