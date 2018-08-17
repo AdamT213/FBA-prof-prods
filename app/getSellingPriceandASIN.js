@@ -18,7 +18,7 @@ var generateSignatureForProductInfo = (UPC) => {
   
   var hashInBase64 = CryptoJS.enc.Base64.stringify(hash);
 
-  console.log(timestamp)
+  // console.log(timestamp)
   
   return hashInBase64 
 
@@ -60,8 +60,8 @@ exports.getPriceandASIN = (UPC) => {
     })
     .buffer(true).parse(myParse) 
     .then(res => {
-      console.log('here is the response');
-      console.log(res.body);  
+      // console.log('here is the response');
+      // console.log(res.body);  
       return res.body.GetMatchingProductForIdResponse.GetMatchingProductForIdResult[0].Error ? {ASIN: null, Price: null} : {ASIN: res.body.GetMatchingProductForIdResponse.GetMatchingProductForIdResult[0].Products[0].Product[0].Identifiers[0].MarketplaceASIN[0].ASIN[0], Price: res.body.GetMatchingProductForIdResponse.GetMatchingProductForIdResult[0].Products[0].Product[0].AttributeSets[0]['ns2:ItemAttributes'][0]['ns2:ListPrice'][0]['ns2:Amount'][0]}
     }) 
     .catch(error => {
