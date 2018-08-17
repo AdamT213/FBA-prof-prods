@@ -108,16 +108,16 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
       .fromFile(req.file.path)
       .subscribe((json)=>{ 
         console.log(json)
-        // return new Promise((resolve,reject)=>{
-        //   let product = new Item(json.Title); 
-        //   product.distributor_id = req.params.id 
-        //   product.SKU = json.SKU 
-        //   product.UPC = json.UPC 
-        //   product.Price = json.Price 
-        //   return resolve(product) 
-        //   //make request to Amazon for product info, including selling price and ASIN 
-        // }).then((product) => {
-        //   console.log(product)
+        return new Promise((resolve,reject)=>{
+          let product = new Item(json.Title); 
+          product.distributor_id = req.params.id 
+          product.SKU = json.SKU 
+          product.UPC = json.UPC 
+          product.Price = json.Price 
+          return resolve(product) 
+          //make request to Amazon for product info, including selling price and ASIN 
+        }).then((product) => {
+          console.log(product)
         //   var productInfo = getPriceandASIN.getPriceandASIN(product.UPC) 
         //   return productInfo 
         // }).then((info) => { 
@@ -149,7 +149,7 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
           //   return resolve(res.end())
           // }
           return res.end()
-      //   })
+         })
       });
     })
 
