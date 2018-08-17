@@ -17,9 +17,7 @@ const config = require('../knexfile');
 const db = knex(config[ENV]);
 require('dotenv').config();
 const cors = require('cors'); 
-import generateSignatureForProductInfo from './getSellingPriceandASIN'; 
-import getPriceandASIN from './getSellingPriceandASIN'; 
-import generateSignatureForFeesEstimate from './getFeesEstimate';
+import getSellingPriceandASIN from './getSellingPriceandASIN'; 
 import getFeesEstimate from './getFeesEstimate';
 
 // Initialize Express.
@@ -123,7 +121,8 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
             product.amazonFees = feeEstimateInfo.Amount
             var profitability = product.retailSellingPrice - product.Price - Product.amazonFees 
             if (profitability > 0) { 
-              product.isProfitable = true
+              product.isProfitable = true 
+              product.profitMargin = profitability/retailSellingPrice
               Product
               .forge(product)
               .save()
