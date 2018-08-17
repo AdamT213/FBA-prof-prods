@@ -17,8 +17,8 @@ const config = require('../knexfile');
 const db = knex(config[ENV]);
 require('dotenv').config();
 const cors = require('cors'); 
-import getSellingPriceandASIN from './getSellingPriceandASIN'; 
-import getFeesEstimate from './getFeesEstimate';
+const getPriceandASIN = require('./getSellingPriceandASIN'); 
+const getFeesEstimate = require('./getFeesEstimate');
 
 // Initialize Express.
 const app = express();
