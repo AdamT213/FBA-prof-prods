@@ -15,8 +15,12 @@ const upload = multer({ dest: 'uploads/' });
 const ENV = process.env.NODE_ENV || 'development';
 const config = require('../knexfile');
 const db = knex(config[ENV]);
-require('dotenv').config() 
-const cors = require('cors')
+require('dotenv').config();
+const cors = require('cors'); 
+import generateSignatureForProductInfo from './getSellingPriceandASIN'; 
+import getPriceandASIN from './getSellingPriceandASIN'; 
+import generateSignatureForFeesEstimate from './getFeesEstimate';
+import getFeesEstimate from './getFeesEstimate';
 
 // Initialize Express.
 const app = express();
@@ -110,13 +114,24 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
           product.distributor_id = req.params.id 
           product.SKU = json.SKU 
           product.UPC = json.UPC 
-          product.Price = json.Price 
-          Product
-          .forge(product)
-          .save()
-          .then((prod) => {
-            console.log({id: prod.id})
-          })
+          product.Price = json.Price  
+          var productInfo = getPriceandASIN(UPC)
+          product.ASIN = productInfo.ASIN 
+          product.retailSellingPrice = productInfo.Price  
+          if (product.retailSellingPrice > product.Price) { 
+            var feeEstimateInfo = getFeesEstimate(product.ASIN, product.retailSellingPrice) 
+            product.amazonFees = feeEstimateInfo.Amount
+            var profitability = product.retailSellingPrice - product.Price - Product.amazonFees 
+            if (profitability > 0) { 
+              product.isProfitable = true
+              Product
+              .forge(product)
+              .save()
+              .then((prod) => {
+                console.log({id: prod.id})
+              }) 
+            }
+          }
           return resolve(res.end())
         })
       });

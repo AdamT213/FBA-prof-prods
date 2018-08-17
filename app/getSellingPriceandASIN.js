@@ -3,13 +3,13 @@ const agent = require('superagent')
 const moment = require('moment')
 const xml2js = require('xml2js');
 
-//moment.js UTC format seems to be the only thing MWS accepts as valid ISO 8601
-var timestamp = moment().utc().format("YYYY-MM-DDTHH:mm:ss.sss") + "Z"
+//generates the signature needed to sign the request to the amazon mws endpoint. Needs to programmatically include the UPC as a param, since each UPC generates a unique signature
+exports.generateSignatureForProductInfo = (UPC) => { 
 
-//generates the signature needed to sign the request to the amazon mws endpoint. Will need to programmatically include the UPC as a param, since each UPC generates a unique signature
-exports.generateSignature = () => { 
+  //moment.js UTC format seems to be the only thing MWS accepts as valid ISO 8601
+  var timestamp = moment().utc().format("YYYY-MM-DDTHH:mm:ss.sss") + "Z"
 
-  var Message = "POST" + "\n" + "mws.amazonservices.com" + "\n" + "/Products/2011-10-01" + "\n" + "AWSAccessKeyId=" + encodeURIComponent('AKIAJO5TPTZ5YGGPNGQA') + "&Action=" + encodeURIComponent('GetMatchingProductForId') + "&IdList.Id.1=" + encodeURIComponent('043171884536') + "&IdType=" + encodeURIComponent('UPC') + "&MarketplaceId=" + encodeURIComponent('ATVPDKIKX0DER') + "&SellerId=" + encodeURIComponent('A1N0R958ET8VVH') + "&SignatureMethod=" + encodeURIComponent('HmacSHA256') + "&SignatureVersion=" + encodeURIComponent('2') + "&Timestamp=" + encodeURIComponent(timestamp)
+  var Message = "POST" + "\n" + "mws.amazonservices.com" + "\n" + "/Products/2011-10-01" + "\n" + "AWSAccessKeyId=" + encodeURIComponent('AKIAJO5TPTZ5YGGPNGQA') + "&Action=" + encodeURIComponent('GetMatchingProductForId') + "&IdList.Id.1=" + encodeURIComponent(UPC) + "&IdType=" + encodeURIComponent('UPC') + "&MarketplaceId=" + encodeURIComponent('ATVPDKIKX0DER') + "&SellerId=" + encodeURIComponent('A1N0R958ET8VVH') + "&SignatureMethod=" + encodeURIComponent('HmacSHA256') + "&SignatureVersion=" + encodeURIComponent('2') + "&Timestamp=" + encodeURIComponent(timestamp)
   + "&Version=" + encodeURIComponent("2011-10-01"); 
 
   var secret = "IrgC8kn+R2WirgIbM8N+hLHUjAS/6CLWvf1dzLcd";
@@ -24,7 +24,7 @@ exports.generateSignature = () => {
 
 } 
 
-console.log(exports.generateSignature()) 
+console.log(exports.generateSignatureForProductInfo(UPC)) 
 
 // UPC=043171884536 
 //sellerId=A1N0R958ET8VVH 
@@ -38,18 +38,20 @@ function myParse (res, cb) {
 agent.parse['application/xml'] = myParse;
 
 //send request to Amazon MWS Products to retrieve Price and ASIN info. If price is greater than the price of the item, another request will be sent to estimate the amazon fees. If the fees + the cost are less than the selling price obtained here, i.e., there is a profit margin, the item will be saved to the db as a product
-exports.getPriceandASIN = () => {
+exports.getPriceandASIN = (UPC) => { 
+
+  var timestamp = moment().utc().format("YYYY-MM-DDTHH:mm:ss.sss") + "Z"
  
   return agent
     .post('https://mws.amazonservices.com/Products/2011-10-01') 
     .query({
       'Action': 'GetMatchingProductForId',
       'AWSAccessKeyId': 'AKIAJO5TPTZ5YGGPNGQA',
-      'IdList.Id.1': '043171884536',
+      'IdList.Id.1': UPC,
       'IdType': 'UPC',
       'MarketplaceId': 'ATVPDKIKX0DER',
       'SellerId': 'A1N0R958ET8VVH',
-      'Signature': exports.generateSignature(),
+      'Signature': exports.generateSignatureForProductInfo(),
       'SignatureMethod': 'HmacSHA256',
       'SignatureVersion': '2',
       'Timestamp': timestamp,
@@ -67,4 +69,4 @@ exports.getPriceandASIN = () => {
     })
 } 
 
-console.log(exports.sendRequest())
+console.log(exports.getPriceandASIN())
