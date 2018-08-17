@@ -4,7 +4,7 @@ const moment = require('moment')
 const xml2js = require('xml2js');
 
 //generates the signature needed to sign the request to the amazon mws endpoint. Needs to programmatically include the UPC as a param, since each UPC generates a unique signature
-exports.generateSignatureForProductInfo = (UPC) => { 
+var generateSignatureForProductInfo = (UPC) => { 
 
   //moment.js UTC format seems to be the only thing MWS accepts as valid ISO 8601
   var timestamp = moment().utc().format("YYYY-MM-DDTHH:mm:ss.sss") + "Z"
@@ -24,7 +24,7 @@ exports.generateSignatureForProductInfo = (UPC) => {
 
 } 
 
-console.log(exports.generateSignatureForProductInfo(UPC)) 
+// console.log(exports.generateSignatureForProductInfo(UPC)) 
 
 // UPC=043171884536 
 //sellerId=A1N0R958ET8VVH 
@@ -51,7 +51,7 @@ exports.getPriceandASIN = (UPC) => {
       'IdType': 'UPC',
       'MarketplaceId': 'ATVPDKIKX0DER',
       'SellerId': 'A1N0R958ET8VVH',
-      'Signature': exports.generateSignatureForProductInfo(),
+      'Signature': generateSignatureForProductInfo(UPC),
       'SignatureMethod': 'HmacSHA256',
       'SignatureVersion': '2',
       'Timestamp': timestamp,
@@ -69,4 +69,4 @@ exports.getPriceandASIN = (UPC) => {
     })
 } 
 
-console.log(exports.getPriceandASIN())
+// console.log(exports.getPriceandASIN())

@@ -4,7 +4,7 @@ const moment = require('moment')
 const xml2js = require('xml2js');
 
 //generates the signature needed to sign the request to the amazon mws endpoint. Needs to programmatically include the ASIN and Price as params, since each ASIN and Price generates a unique signature
-exports.generateSignatureForFeesEstimate = (ASIN,Price) => { 
+var generateSignatureForFeesEstimate = (ASIN,Price) => { 
 
   //moment.js UTC format seems to be the only thing MWS accepts as valid ISO 8601
   var timestamp = moment().utc().format("YYYY-MM-DDTHH:mm:ss.sss") + "Z"
@@ -24,7 +24,7 @@ exports.generateSignatureForFeesEstimate = (ASIN,Price) => {
 
 } 
 
-console.log(exports.generateSignatureForFeesEstimate("B002KT3XQM", "30.00")) 
+//console.log(exports.generateSignatureForFeesEstimate("B002KT3XQM", "30.00")) 
 
 // UPC=043171884536 
 //sellerId=A1N0R958ET8VVH 
@@ -54,11 +54,11 @@ exports.getFeesEstimate = (ASIN, Price) => {
       'FeesEstimateRequestList.FeesEstimateRequest.1.Identifier': 'request1', 
       'FeesEstimateRequestList.FeesEstimateRequest.1.PriceToEstimateFees.ListingPrice.Amount': Price, 
       'FeesEstimateRequestList.FeesEstimateRequest.1.PriceToEstimateFees.ListingPrice.CurrencyCode': 'USD',
-      'FeesEstimateRequestList.FeesEstimateRequest.1.PriceToEstimateFees.Shipping.Amount': '3.99', 
+      'FeesEstimateRequestList.FeesEstimateRequest.1.PriceToEstimateFees.Shipping.Amount': '0.00', 
       'FeesEstimateRequestList.FeesEstimateRequest.1.PriceToEstimateFees.Shipping.CurrencyCode': 'USD', 
       'FeesEstimateRequestList.FeesEstimateRequest.1.PriceToEstimateFees.Points.PointsNumber': '0',
       'SellerId': 'A1N0R958ET8VVH',
-      'Signature': exports.generateSignatureForFeesEstimate("B002KT3XQM", "30.00"),
+      'Signature': generateSignatureForFeesEstimate(ASIN, Price),
       'SignatureMethod': 'HmacSHA256',
       'SignatureVersion': '2',
       'Timestamp': timestamp,
@@ -76,4 +76,4 @@ exports.getFeesEstimate = (ASIN, Price) => {
     })
 } 
 
-console.log(exports.getFeesEstimate("B002KT3XQM", "30.00")) 
+//console.log(exports.getFeesEstimate("B002KT3XQM", "30.00")) 
