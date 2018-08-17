@@ -64,7 +64,7 @@ exports.getPriceandASIN = (UPC) => {
       var productWithPrice = res.body.GetMatchingProductForIdResponse.GetMatchingProductForIdResult[0].Products[0].Product.find((p) => p.AttributeSets[0]['ns2:ItemAttributes'][0]['ns2:ListPrice'])
       // console.log('here is the response');
       // console.log (res.body);  
-      return (res.body.GetMatchingProductForIdResponse.GetMatchingProductForIdResult[0].Error || productWithPrice == undefined) ? {ASIN: null, Price: null} : {ASIN: res.body.GetMatchingProductForIdResponse.GetMatchingProductForIdResult[0].Products[0].Product[0].Identifiers[0].MarketplaceASIN[0].ASIN[0], Price: productWithPrice.AttributeSets[0]['ns2:ItemAttributes'][0]['ns2:ListPrice'][0]['ns2:Amount'][0]}
+      return res.body.GetMatchingProductForIdResponse.GetMatchingProductForIdResult[0].Error ? {ASIN: null, Price: null} : {ASIN: res.body.GetMatchingProductForIdResponse.GetMatchingProductForIdResult[0].Products[0].Product[0].Identifiers[0].MarketplaceASIN[0].ASIN[0], Price: productWithPrice.AttributeSets[0]['ns2:ItemAttributes'][0]['ns2:ListPrice'][0]['ns2:Amount'][0]}
     }) 
     .catch(error => {
       console.log('here is the error');
