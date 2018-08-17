@@ -113,13 +113,18 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
           product.SKU = json.SKU 
           product.UPC = json.UPC 
           product.Price = json.Price  
+          //make request to Amazon for product info, including selling price and ASIN 
+          console.log(getPriceandASIN)
           var productInfo = getPriceandASIN(product.UPC)
           product.ASIN = productInfo.ASIN 
-          product.retailSellingPrice = productInfo.Price  
+          product.retailSellingPrice = productInfo.Price 
+          //Use ASIN to make request to Amazon for estimated fees, if and only if the selling price is greater than the buying price
           if (product.retailSellingPrice > product.Price) { 
             var feeEstimateInfo = getFeesEstimate(product.ASIN, product.retailSellingPrice) 
-            product.amazonFees = feeEstimateInfo.Amount
+            product.amazonFees = feeEstimateInfo.Amount 
+            //calculate selling price - buying price - fees to see if product is profitable
             var profitability = product.retailSellingPrice - product.Price - Product.amazonFees 
+            //save product to db if it is profitable
             if (profitability > 0) { 
               product.isProfitable = true 
               product.profitMargin = profitability/retailSellingPrice
