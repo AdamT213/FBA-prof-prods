@@ -60,11 +60,16 @@ exports.getPriceandASIN = (UPC) => {
     })
     .buffer(true).parse(myParse) 
     .then(res => { 
-      //find first product in returned list that has an associated listPrice
-      var productWithPrice = res.body.GetMatchingProductForIdResponse.GetMatchingProductForIdResult[0].Products[0].Product.find((p) => p.AttributeSets[0]['ns2:ItemAttributes'][0]['ns2:ListPrice'])
-      // console.log('here is the response');
-      // console.log (res.body);  
-      return res.body.GetMatchingProductForIdResponse.GetMatchingProductForIdResult[0].Error ? {ASIN: null, Price: null} : {ASIN: res.body.GetMatchingProductForIdResponse.GetMatchingProductForIdResult[0].Products[0].Product[0].Identifiers[0].MarketplaceASIN[0].ASIN[0], Price: productWithPrice.AttributeSets[0]['ns2:ItemAttributes'][0]['ns2:ListPrice'][0]['ns2:Amount'][0]}
+      //check if any products matching UPC are found 
+      if(!res.body.GetMatchingProductForIdResponse.GetMatchingProductForIdResult[0].Error) {
+        //find first product in returned list that has an associated listPrice
+        let productWithPrice = res.body.GetMatchingProductForIdResponse.GetMatchingProductForIdResult[0].Products[0].Product.find((p) => p.AttributeSets[0]['ns2:ItemAttributes'][0]['ns2:ListPrice']) 
+
+        return productWithPrice !== undefined ? {ASIN: res.body.GetMatchingProductForIdResponse.GetMatchingProductForIdResult[0].Products[0].Product[0].Identifiers[0].MarketplaceASIN[0].ASIN[0], Price: productWithPrice.AttributeSets[0]['ns2:ItemAttributes'][0]['ns2:ListPrice'][0]['ns2:Amount'][0]} : {ASIN: null, Price: null}
+      } 
+      else { 
+        return {ASIN: null, Price: null}
+      }
     }) 
     .catch(error => {
       console.log('here is the error');
@@ -72,4 +77,4 @@ exports.getPriceandASIN = (UPC) => {
     })
 } 
 
-console.log(exports.getPriceandASIN('56389001503'))
+// console.log(exports.getPriceandASIN('43171080044'))
