@@ -150,7 +150,7 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
           // }
           return res.end()
       //   })
-      // });
+      });
     })
 
 
