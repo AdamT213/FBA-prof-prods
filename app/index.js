@@ -114,8 +114,8 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
           product.UPC = json.UPC 
           product.Price = json.Price  
           //make request to Amazon for product info, including selling price and ASIN 
-          console.log(getPriceandASIN())
-          var productInfo = getPriceandASIN(product.UPC)
+          console.log(getPriceandASIN.getPriceandASIN())
+          var productInfo = getPriceandASIN.getPriceandASIN(product.UPC)
           product.ASIN = productInfo.ASIN 
           product.retailSellingPrice = productInfo.Price 
           //Use ASIN to make request to Amazon for estimated fees, if and only if the selling price is greater than the buying price
