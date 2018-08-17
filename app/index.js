@@ -107,7 +107,7 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
     csv()
       .fromFile(req.file.path)
       .subscribe((json)=>{ 
-        console.log(json)
+        // console.log(json)
         return new Promise((resolve,reject)=>{
           let product = new Item(json.Title); 
           product.distributor_id = req.params.id 
@@ -117,7 +117,7 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
           return resolve(product) 
           //make request to Amazon for product info, including selling price and ASIN 
         }).then((product) => {
-          console.log(product)
+          console.log(product) 
         //   var productInfo = getPriceandASIN.getPriceandASIN(product.UPC) 
         //   return productInfo 
         // }).then((info) => { 
