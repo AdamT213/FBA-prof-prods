@@ -113,7 +113,7 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
           product.SKU = json.SKU 
           product.UPC = json.UPC 
           product.Price = json.Price  
-          var productInfo = getPriceandASIN(UPC)
+          var productInfo = getPriceandASIN(product.UPC)
           product.ASIN = productInfo.ASIN 
           product.retailSellingPrice = productInfo.Price  
           if (product.retailSellingPrice > product.Price) { 
