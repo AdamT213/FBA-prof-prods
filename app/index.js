@@ -116,6 +116,7 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
           return resolve(product) 
           //make request to Amazon for product info, including selling price and ASIN 
         }).then((product) => {
+          console.log(product.UPC)
             var productInfo = getPriceandASIN.getPriceandASIN(product.UPC) 
             return productInfo 
         }).then((info) => { 
@@ -146,7 +147,7 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
           // else { 
           //   return resolve(res.end())
           // }
-          return resolve(res.end())
+          return res.end()
         })
       });
     })
