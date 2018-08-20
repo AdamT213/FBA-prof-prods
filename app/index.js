@@ -123,10 +123,12 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
             return {product, productInfo}; 
           } 
           return makeAmazonRequest()
-        }).then(data => {   
+        }).then(data => {  
+          let info = data.productInfo; 
+          let product = data.product; 
           //will return null if no product matching UPC is found
           if (info.ASIN !== null && info.Price !== null) { 
-            console.log(console.log(data.productInfo)) 
+            console.log(info) 
           //   product.ASIN = info.ASIN 
           //   product.retailSellingPrice = info.Price  
           //   console.log(product)
