@@ -119,14 +119,14 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
         }).then((product) => {
           // console.log(product) 
           var productInfo = getPriceandASIN.getPriceandASIN(product.UPC) 
-          return productInfo
-        }).then((info) => {  
-          // console.log(info) 
+          return {info: resolve(productInfo), product: product}
+        }).then((productStuff) => {  
+          console.log(productStuff) 
           // console.log(product) 
           //will return null if no product matching UPC is found
-          if (info.ASIN !== null && info.Price !== null) { 
-            console.log(info) 
-            console.log(product)
+          // if (info.ASIN !== null && info.Price !== null) { 
+          //   console.log(info) 
+          //   console.log(product)
           //   product.ASIN = info.ASIN 
           //   product.retailSellingPrice = info.Price  
           //   console.log(product)
@@ -152,7 +152,7 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
           // } 
           // else { 
           //   return resolve(res.end())
-          }
+          // }
           // return res.end()
          })
       });
