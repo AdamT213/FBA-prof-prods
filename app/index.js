@@ -139,7 +139,8 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
                  
                 return feeEstimateInfo
               } 
-              return {product, makeAmazonFeesRequest()} 
+              product.feeEstimate = makeAmazonFeesRequest()
+              return {product} 
             } 
           }
         }).then(resp => { 
