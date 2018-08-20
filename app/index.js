@@ -122,7 +122,7 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
             var productInfo = await getPriceandASIN.getPriceandASIN(product.UPC);
             return {product, productInfo}; 
           } 
-          makeAmazonRequest()
+          return makeAmazonRequest()
         }).then(data => {  
           console.log(data); 
           //will return null if no product matching UPC is found
