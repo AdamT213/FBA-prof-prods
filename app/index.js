@@ -139,9 +139,13 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
                  
                 return feeEstimateInfo
               } 
-              console.log(makeAmazonFeesRequest())
-              // console.log(feeEstimate) 
-              //     product.amazonFees = feeEstimateInfo.Amount 
+              var feeEstimate = makeAmazonFeesRequest()
+              return {product, feeEstimate} 
+            } 
+          }
+        }).then(resp => { 
+          console.log(resp)
+          //     product.amazonFees = feeEstimateInfo.Amount 
           //     //calculate selling price - buying price - fees to see if product is profitable
           //     var profitability = product.retailSellingPrice - product.Price - Product.amazonFees 
           //     //save product to db if it is profitable
@@ -160,9 +164,7 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
           // else { 
           //   return resolve(res.end())
           // return res.end()
-            } 
-          }
-        });
+        }); 
       });
     })
 
