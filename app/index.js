@@ -103,7 +103,7 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
   }
   next()
 }, function (req, res, next) {  
-    console.log(req.file);
+    // console.log(req.file);
     csv()
       .fromFile(req.file.path)
       .subscribe((json)=>{ 
@@ -123,7 +123,7 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
         }).then((info) => { 
           console.log(info.ASIN)  
           console.log(info.Price)
-          console.log(product)
+          // console.log(product)
           //will return null if no product matching UPC is found
           // if (info.ASIN !== null && info.Price !== null) {
           //   product.ASIN = info.ASIN 
