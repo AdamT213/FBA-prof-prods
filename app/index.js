@@ -119,14 +119,10 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
         }).then((product) => {
           // console.log(product) 
           var productInfo = getPriceandASIN.getPriceandASIN(product.UPC) 
-          return {info: productInfo, product: product}
+          return resolve({info: productInfo, product: product})
         }).then((productStuff) => {  
-          setTimeout(()=>{
-            console.log(productStuff.product)
-            console.log(productStuff.info)
-          });  
-          // console.log(info.Price)
-          // console.log(product)
+          console.log(productStuff.product)
+          console.log(productStuff.info)
           //will return null if no product matching UPC is found
           // if (info.ASIN !== null && info.Price !== null) {
           //   product.ASIN = info.ASIN 
