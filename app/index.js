@@ -140,8 +140,8 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
                 
                 return feeEstimateInfo 
               } 
-              var feeEstimateInfo = makeAmazonFeesRequest().feeEstimateInfo 
-              console.log(feeEstimateInfo) 
+              var feeEstimate = makeAmazonFeesRequest() 
+              console.log(feeEstimate) 
           //     product.amazonFees = feeEstimateInfo.Amount 
           //     //calculate selling price - buying price - fees to see if product is profitable
           //     var profitability = product.retailSellingPrice - product.Price - Product.amazonFees 
