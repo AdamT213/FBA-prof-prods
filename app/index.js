@@ -118,8 +118,10 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
           //make request to Amazon for product info, including selling price and ASIN 
         }).then(product => {
           // console.log(product) 
-          var productInfo = await getPriceandASIN.getPriceandASIN(product.UPC);
-          return {product, productInfo};
+          return async function makeAmazonRequest() {
+            var productInfo = await getPriceandASIN.getPriceandASIN(product.UPC);
+            return {product, productInfo};
+          }
         }).then(data => {  
           console.log(data.productInfo);
           console.log(data.product); 
