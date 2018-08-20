@@ -119,9 +119,9 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
         }).then((product) => {
           // console.log(product) 
           var productInfo = getPriceandASIN.getPriceandASIN(product.UPC) 
-          return productInfo 
+          return res.end(productInfo, product)
         }).then((info) => { 
-          console.log(info.ASIN)  
+          console.log(info.ASIN)   
           console.log(info.Price)
           console.log(product)
           //will return null if no product matching UPC is found
