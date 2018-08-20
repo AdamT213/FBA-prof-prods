@@ -119,7 +119,7 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
         }).then((product) => {
           // console.log(product) 
           var productInfo = getPriceandASIN.getPriceandASIN(product.UPC) 
-          return productInfo
+          return resolve(productInfo)
         }).then((info) => {  
           console.log(info) 
           console.log(product) 
@@ -151,7 +151,7 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
           // else { 
           //   return resolve(res.end())
           // }
-          return res.end()
+          // return res.end()
          })
       });
     })
