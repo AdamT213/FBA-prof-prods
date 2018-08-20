@@ -136,11 +136,10 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
               async function makeAmazonFeesRequest() {
                 
                 var feeEstimateInfo = await getFeesEstimate.getFeesEstimate(product.ASIN,product.retailSellingPrice) 
-                
-                console.log(feeEstimateInfo) 
+                 
                 return feeEstimateInfo
               } 
-              // var feeEstimate = makeAmazonFeesRequest() 
+              console.log(makeAmazonFeesRequest())
               // console.log(feeEstimate) 
               //     product.amazonFees = feeEstimateInfo.Amount 
           //     //calculate selling price - buying price - fees to see if product is profitable
