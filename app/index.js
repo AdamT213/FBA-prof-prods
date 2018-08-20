@@ -120,13 +120,15 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
           // console.log(product) 
           var productInfo = getPriceandASIN.getPriceandASIN(product.UPC) 
           return productInfo 
-        }).then((info, product) => { 
-          // console.log(info)
+        }).then((info) => { 
+          console.log(info.ASIN)  
+          console.log(info.Price)
+          console.log(product)
           //will return null if no product matching UPC is found
-          if (info.ASIN !== null && info.Price !== null) {
-            product.ASIN = info.ASIN 
-            product.retailSellingPrice = info.Price  
-            console.log(product)
+          // if (info.ASIN !== null && info.Price !== null) {
+          //   product.ASIN = info.ASIN 
+          //   product.retailSellingPrice = info.Price  
+          //   console.log(product)
             //Use ASIN to make request to Amazon for estimated fees, if and only if the selling price is greater than the buying price 
             // if (product.retailSellingPrice > product.Price) { 
             //   var feeEstimateInfo = getFeesEstimate(product.ASIN, product.retailSellingPrice)  
@@ -149,7 +151,7 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
           // } 
           // else { 
           //   return resolve(res.end())
-          }
+          // }
           return res.end()
          })
       });
