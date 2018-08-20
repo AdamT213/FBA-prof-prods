@@ -119,7 +119,7 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
         }).then((product) => {
           // console.log(product) 
           var productInfo = getPriceandASIN.getPriceandASIN(product.UPC) 
-          return res.end(productInfo, product)
+          return res.send(productInfo, product) 
         }).then((info) => { 
           console.log(info.ASIN)   
           console.log(info.Price)
