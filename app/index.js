@@ -128,10 +128,10 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
           let product = data.product; 
           //will return null if no product matching UPC is found
           if (info.ASIN !== null && info.Price !== null) { 
-            console.log(info) 
-          //   product.ASIN = info.ASIN 
-          //   product.retailSellingPrice = info.Price  
-          //   console.log(product)
+            // console.log(info) 
+            product.ASIN = info.ASIN 
+            product.retailSellingPrice = info.Price  
+            console.log(product)
             //Use ASIN to make request to Amazon for estimated fees, if and only if the selling price is greater than the buying price 
             // if (product.retailSellingPrice > product.Price) { 
             //   var feeEstimateInfo = getFeesEstimate(product.ASIN, product.retailSellingPrice)  
