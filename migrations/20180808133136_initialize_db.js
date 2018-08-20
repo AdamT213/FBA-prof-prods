@@ -14,7 +14,7 @@ exports.up = function(knex, Promise) {
       tbl.float('Price')
       tbl.boolean('isProfitable').defaultTo(true);
       tbl.float('totalMonthlySales'); 
-      tbl.float('retailSellingPrice');
+      tbl.float('retailSellingPrice'); 
       tbl.float('amazonFees');
       tbl.float('productCost');
       tbl.float('profitMargin');
