@@ -123,12 +123,10 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
             return {product, productInfo}; 
           } 
           return makeAmazonRequest()
-        }).then(data => {  
-          console.log(data); 
+        }).then(data => {   
           //will return null if no product matching UPC is found
-          // if (info.ASIN !== null && info.Price !== null) { 
-          //   console.log(info) 
-          //   console.log(product)
+          if (info.ASIN !== null && info.Price !== null) { 
+            console.log(console.log(data.productInfo)) 
           //   product.ASIN = info.ASIN 
           //   product.retailSellingPrice = info.Price  
           //   console.log(product)
@@ -154,7 +152,7 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
           // } 
           // else { 
           //   return resolve(res.end())
-          // }
+          }
           // return res.end()
          })
       });
