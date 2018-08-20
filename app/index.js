@@ -133,9 +133,12 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
             product.retailSellingPrice = info.Price  
             console.log(product)
             //Use ASIN to make request to Amazon for estimated fees, if and only if the selling price is greater than the buying price 
-            // if (product.retailSellingPrice > product.Price) { 
-            //   var feeEstimateInfo = getFeesEstimate(product.ASIN, product.retailSellingPrice)  
-            //   console.log(feeEstimateInfo)
+            if (product.retailSellingPrice > product.Price) { 
+              async function makeAmazonFeesRequest() {
+                var feeEstimateInfo = await getFeesEstimate(product.ASIN,product.retailSellingPrice) 
+                return feeEstimateInfo 
+              } 
+              console.log(makeAmazonFeesRequest().feeEstimateInfo.Amount)
           //     product.amazonFees = feeEstimateInfo.Amount 
           //     //calculate selling price - buying price - fees to see if product is profitable
           //     var profitability = product.retailSellingPrice - product.Price - Product.amazonFees 
@@ -151,7 +154,7 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
           //       }) 
           //     }
           //   } 
-          // } 
+          } 
           // else { 
           //   return resolve(res.end())
           }
