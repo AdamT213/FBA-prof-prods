@@ -66,9 +66,9 @@ exports.getFeesEstimate = (ASIN, Price) => {
     })
     .buffer(true).parse(myParse) 
     .then(res => {
-      console.log('here is the response');
-      console.log(res.body); 
-      return {Amount: res.body.GetMyFeesEstimateResponse.GetMyFeesEstimateResult[0].FeesEstimateResultList[0].FeesEstimateResult[0].FeesEstimate[0].TotalFeesEstimate[0].Amount[0]}
+      // console.log('here is the response');
+      // console.log(res.body); 
+      return res.body.GetMyFeesEstimateResponse.GetMyFeesEstimateResult[0].FeesEstimateResultList[0].FeesEstimateResult[0].FeesEstimate[0].TotalFeesEstimate[0].Amount[0]
     }) 
     .catch(error => {
       console.log('here is the error');

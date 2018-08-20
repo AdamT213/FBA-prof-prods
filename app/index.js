@@ -135,11 +135,13 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
             //Use ASIN to make request to Amazon for estimated fees, if and only if the selling price is greater than the buying price 
             if (product.retailSellingPrice > product.Price) { 
               async function makeAmazonFeesRequest() {
+                
                 var feeEstimateInfo = await getFeesEstimate.getFeesEstimate(product.ASIN,product.retailSellingPrice) 
                 
                 return feeEstimateInfo 
               } 
-              console.log(makeAmazonFeesRequest().feeEstimateInfo.Amount)
+              var feeEstimateInfo = makeAmazonFeesRequest().feeEstimateInfo 
+              console.log(feeEstimateInfo) 
           //     product.amazonFees = feeEstimateInfo.Amount 
           //     //calculate selling price - buying price - fees to see if product is profitable
           //     var profitability = product.retailSellingPrice - product.Price - Product.amazonFees 
