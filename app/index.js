@@ -114,7 +114,7 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
           product.SKU = json.SKU 
           product.UPC = json.UPC 
           product.Price = json.Price 
-          return product
+          return resolve(product)
           //make request to Amazon for product info, including selling price and ASIN 
         }).then((product) => {
           // console.log(product) 
@@ -151,7 +151,7 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
           // else { 
           //   return resolve(res.end())
           // }
-          return resolve(res.end())
+          return res.end()
          })
       });
     })
