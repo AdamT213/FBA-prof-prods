@@ -158,20 +158,17 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
             if (profitability == true) { 
               product.isProfitable = true 
               product.profitMargin = profitability/retailSellingPrice 
-              console.log("Adam")
-              // Product
-              // .forge(product)
-              // .save()
-              // .then((prod) => {
-              //   console.log({id: prod.id})
-              // }) 
-            } else { 
-              return resp
-            }     
-          } 
-          else { 
-            return resp
+              Product
+              .forge(product)
+              .save()
+              .then((prod) => {
+                console.log({id: prod.id}) 
+                res.json({id: prod.id});
+              }) 
+            }  
+            return resp   
           }
+          return resp
         }); 
       });
     })
