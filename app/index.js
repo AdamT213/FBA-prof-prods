@@ -158,8 +158,8 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
              
             //save product to db if it is profitable
             if (profitability == true) { 
-              // product.isProfitable = true 
-              // product.profitMargin = profitability/retailSellingPrice 
+              product.isProfitable = true 
+              product.profitMargin = profitability/product.retailSellingPrice 
               console.log(product)
           //   //   Product
           //   //   .forge(product)
