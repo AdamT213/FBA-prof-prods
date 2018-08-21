@@ -154,12 +154,13 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
             
             //calculate selling price - buying price - fees to see if product is profitable 
             var profitability = (product.retailSellingPrice - product.Price - product.amazonFees > 0) 
-            console.log(profitability)
+            console.log(profitability) 
              
-          //   //save product to db if it is profitable
-          //   // if (profitability == true) { 
-          //   //   product.isProfitable = true 
-          //   //   product.profitMargin = profitability/retailSellingPrice 
+            //save product to db if it is profitable
+            if (profitability == true) { 
+              console.log(product)
+              // product.isProfitable = true 
+              // product.profitMargin = profitability/retailSellingPrice 
           //   //   Product
           //   //   .forge(product)
           //   //   .save()
@@ -167,7 +168,7 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
           //   //     console.log({id: prod.id}) 
           //   //     res.json({id: prod.id});
           //   //   }) 
-          //   // }      
+            }      
           }
         }); 
       });
