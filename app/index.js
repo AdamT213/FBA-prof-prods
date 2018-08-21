@@ -140,8 +140,10 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
                 return {product, feeEstimateInfo}
               } 
               return makeAmazonFeesRequest()
-            }   
-          } 
+            } 
+            return product  
+          }  
+          return product
         }).then(resp => {  
           console.log(resp) 
           if (resp.feeEstimateInfo) {
@@ -163,8 +165,6 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
             //     console.log({id: prod.id})
             //   }) 
             // }      
-          } else { 
-            return null
           }
         }); 
       });
