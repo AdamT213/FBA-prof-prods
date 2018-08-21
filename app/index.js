@@ -167,7 +167,9 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
             //     res.json({id: prod.id});
             //   }) 
             // }      
-          } 
+          } else { 
+            return resp
+          }
         }); 
       });
     })
