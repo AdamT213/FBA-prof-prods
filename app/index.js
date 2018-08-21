@@ -137,10 +137,9 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
                 
                 var feeEstimateInfo = await getFeesEstimate.getFeesEstimate(product.ASIN,product.retailSellingPrice) 
                  
-                return feeEstimateInfo
+                return {product, feeEstimateInfo}
               } 
-              product.feeEstimate = resolve(makeAmazonFeesRequest())
-              return product 
+              return makeAmazonFeesRequest()
             } 
           }
         }).then(resp => { 
