@@ -146,27 +146,27 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
           return product
         }).then(resp => {   
           if (resp.feeEstimateInfo) { 
-            console.log(resp)
-            let product = resp.product 
-            let amazonFees = resp.feeEstimateInfo 
-            product.amazonFees = amazonFees 
+            console.log(resp.product)
+            // let product = resp.product 
+            // let amazonFees = resp.feeEstimateInfo 
+            // product.amazonFees = amazonFees 
             
             //calculate selling price - buying price - fees to see if product is profitable 
             var profitability = (product.retailSellingPrice - product.Price - product.amazonFees > 0) 
             // console.log(product)
              
             //save product to db if it is profitable
-            if (profitability == true) { 
-              product.isProfitable = true 
-              product.profitMargin = profitability/retailSellingPrice 
-              Product
-              .forge(product)
-              .save()
-              .then((prod) => {
-                console.log({id: prod.id}) 
-                res.json({id: prod.id});
-              }) 
-            }      
+            // if (profitability == true) { 
+            //   product.isProfitable = true 
+            //   product.profitMargin = profitability/retailSellingPrice 
+            //   Product
+            //   .forge(product)
+            //   .save()
+            //   .then((prod) => {
+            //     console.log({id: prod.id}) 
+            //     res.json({id: prod.id});
+            //   }) 
+            // }      
           } 
         }); 
       });
