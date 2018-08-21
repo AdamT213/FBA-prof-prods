@@ -145,7 +145,7 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
           }  
           return product
         }).then(resp => {   
-          if (resp.feeEstimateInfo) { 
+          if (resp && resp.feeEstimateInfo) { 
             console.log(resp.product)
             // let product = resp.product 
             // let amazonFees = resp.feeEstimateInfo 
@@ -167,8 +167,6 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
             //     res.json({id: prod.id});
             //   }) 
             // }      
-          } else { 
-            return resp
           }
         }); 
       });
