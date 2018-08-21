@@ -144,11 +144,11 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
           } 
         }).then(resp => {  
           console.log(resp)
-          let product = resp.product 
-          let amazonFees = resp.feeEstimateInfo 
-          product.amazonFees = amazonFees 
-          //calculate selling price - buying price - fees to see if product is profitable
-          var profitability = (product.retailSellingPrice - product.Price - product.amazonFees > 0) 
+          // let product = resp.product 
+          // let amazonFees = resp.feeEstimateInfo 
+          // product.amazonFees = amazonFees 
+          // //calculate selling price - buying price - fees to see if product is profitable
+          // var profitability = (product.retailSellingPrice - product.Price - product.amazonFees > 0) 
           
           // console.log(product) 
           // //save product to db if it is profitable
