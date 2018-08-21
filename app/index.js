@@ -165,8 +165,10 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
                 console.log({id: prod.id}) 
                 res.json({id: prod.id});
               }) 
-            }     
-          }
+            } 
+            res.sendStatus(500)     
+          } 
+          res.sendStatus(500)
         }); 
       });
     })
