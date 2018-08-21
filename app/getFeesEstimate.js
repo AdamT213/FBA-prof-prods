@@ -18,7 +18,7 @@ var generateSignatureForFeesEstimate = (ASIN,Price) => {
   
   var hashInBase64 = CryptoJS.enc.Base64.stringify(hash);
 
-  console.log(timestamp)
+  // console.log(timestamp)
   
   return hashInBase64 
 
