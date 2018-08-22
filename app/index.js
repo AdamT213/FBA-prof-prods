@@ -108,14 +108,16 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
       .fromFile(req.file.path)
       .subscribe((json)=>{ 
         
-        return new Promise((resolve,reject)=>{
-          
+        return new Promise((resolve,reject)=>{ 
+
+          let products = [];
           let product = new Item(json.Title); 
           product.distributor_id = req.params.id 
           product.SKU = json.SKU 
           product.UPC = json.UPC 
           product.Price = json.Price 
           return resolve(product)
+          
           //make request to Amazon for product info, including selling price and ASIN 
         
         }).then(product => {
@@ -130,12 +132,16 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
           
           let info = data.productInfo; 
           let product = data.product; 
+          
           //will return null for ASIN if no product matching UPC is found, or null for Price if no matching product has a price listed
+          
           if (info.ASIN !== null && info.Price !== null) { 
              
             product.ASIN = info.ASIN 
             product.retailSellingPrice = info.Price  
+            
             //Use ASIN to make request to Amazon for estimated fees, if and only if the selling price is greater than the buying price 
+           
             if (product.retailSellingPrice > product.Price) { 
               
               async function makeAmazonFeesRequest() {
@@ -166,18 +172,19 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
               
               product.isProfitable = true 
               product.profitMargin = profitability/product.retailSellingPrice 
-              // console.log(product) 
+               
               Product
               .forge(product)
               .save()
               .then((prod) => {
                 console.log({id: prod.id}) 
-                res.json(prod)
+                products.push(prod) 
               })
             }      
           }
         }); 
-      });
+      }); 
+      res.json(products)
     })
 
 
