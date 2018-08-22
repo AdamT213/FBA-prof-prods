@@ -95,6 +95,9 @@ router.post('/distributors', urlencodedParser, jsonParser, (req, res) => {
 }); 
 
 router.post('/distributor/:id/upload', upload.single('file'), function (err,req, res, next ) { 
+
+  let products = [];
+  
   if (err) { 
     console.log(req);
     console.log(req.file);
@@ -109,8 +112,7 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
       .subscribe((json)=>{ 
         
         return new Promise((resolve,reject)=>{ 
-
-          let products = [];
+ 
           let product = new Item(json.Title); 
           product.distributor_id = req.params.id 
           product.SKU = json.SKU 
@@ -159,7 +161,7 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
         }).then(resp => {   
 
           if (resp && resp.feeEstimateInfo) { 
-   
+            
             let product = resp.product 
             let amazonFees = resp.feeEstimateInfo 
             product.amazonFees = amazonFees 
