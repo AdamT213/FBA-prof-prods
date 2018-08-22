@@ -181,9 +181,6 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
               })
             }      
           }
-        }).then(() => { 
-          console.log('done parsing') 
-          res.end() 
         })
       }); 
     })
