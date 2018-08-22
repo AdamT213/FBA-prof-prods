@@ -132,6 +132,8 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
           
           let info = data.productInfo; 
           let product = data.product; 
+
+          console.log(product)
           
           //will return null for ASIN if no product matching UPC is found, or null for Price if no matching product has a price listed
           
@@ -166,8 +168,6 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
             
             //calculate selling price - buying price - fees to see if product is profitable  
             var profit = product.retailSellingPrice - product.Price - product.amazonFees  
-
-            console.log(profit)
             
             var profitability = (profit > 0)  
              
