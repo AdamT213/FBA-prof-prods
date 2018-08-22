@@ -132,8 +132,6 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
           
           let info = data.productInfo; 
           let product = data.product; 
-
-          console.log(product)
           
           //will return null for ASIN if no product matching UPC is found, or null for Price if no matching product has a price listed
           
