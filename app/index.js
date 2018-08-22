@@ -194,7 +194,52 @@ class Item {
   constructor(title) {
     this.title = title;   
   }
-}
+} 
+
+router.delete('/distributor/:id', function (req, res) {
+  Distributor
+    .forge({id: req.params.id})
+    .fetch({require: true})
+    .then((distributor) => {
+      disributor.destroy()
+      .then(function () {
+        res.json({error: true, data: {message: 'Disributor successfully deleted'}});
+      })
+      .catch(function (err) {
+        res.status(500).json({error: true, data: {message: err.message}})
+      });
+    })
+}) 
+
+router.get('/product/:id', (req,res) => {
+  Product
+    .forge({id: req.params.id}) 
+    .fetch()
+    .then((product) => {
+      if (_.isEmpty(product))
+        return res.sendStatus(404);
+      res.json(product);
+    })
+    .catch((error) => {
+      console.error(error);
+      return res.sendStatus(500);
+    });
+}); 
+
+router.delete('/product/:id', function (req, res) {
+    Product
+    .forge({id: req.params.id})
+    .fetch({require: true})
+    .then((product) => {
+      product.destroy()
+      .then(function () {
+        res.json({error: true, data: {message: 'Product successfully deleted'}});
+      })
+      .catch(function (err) {
+        res.status(500).json({error: true, data: {message: err.message}})
+      });
+    })
+}) 
 
 // Exports for Server Hoisting.
 
