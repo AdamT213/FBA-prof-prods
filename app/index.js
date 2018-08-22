@@ -165,7 +165,9 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
             product.amazonFees = amazonFees 
             
             //calculate selling price - buying price - fees to see if product is profitable  
-            var profit = product.retailSellingPrice - product.Price - product.amazonFees
+            var profit = product.retailSellingPrice - product.Price - product.amazonFees  
+
+            console.log(profit)
             
             var profitability = (profit > 0)  
              
