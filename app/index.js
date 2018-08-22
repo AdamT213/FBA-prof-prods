@@ -182,8 +182,8 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
             }      
           }
         })
-        res.end()
-      }); 
+      });  
+      res.end()
     })
 
 
