@@ -103,12 +103,13 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
   }
   next()
 }, function (req, res, next) {  
-    // console.log(req.file);
+    
     csv()
       .fromFile(req.file.path)
       .subscribe((json)=>{ 
-        // console.log(json)
+        
         return new Promise((resolve,reject)=>{
+          
           let product = new Item(json.Title); 
           product.distributor_id = req.params.id 
           product.SKU = json.SKU 
@@ -116,23 +117,27 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
           product.Price = json.Price 
           return resolve(product)
           //make request to Amazon for product info, including selling price and ASIN 
+        
         }).then(product => {
-          // console.log(product) 
+          
           async function makeAmazonRequest() {
             var productInfo = await getPriceandASIN.getPriceandASIN(product.UPC);
             return {product, productInfo}; 
           } 
           return makeAmazonRequest()
+        
         }).then(data => {  
+          
           let info = data.productInfo; 
           let product = data.product; 
           //will return null for ASIN if no product matching UPC is found, or null for Price if no matching product has a price listed
           if (info.ASIN !== null && info.Price !== null) { 
-            // console.log(info) 
+             
             product.ASIN = info.ASIN 
             product.retailSellingPrice = info.Price  
             //Use ASIN to make request to Amazon for estimated fees, if and only if the selling price is greater than the buying price 
             if (product.retailSellingPrice > product.Price) { 
+              
               async function makeAmazonFeesRequest() {
                 
                 var feeEstimateInfo = await getFeesEstimate.getFeesEstimate(product.ASIN,product.retailSellingPrice) 
@@ -144,6 +149,7 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
             return product  
           }  
           return product
+        
         }).then(resp => {   
 
           if (resp && resp.feeEstimateInfo) { 
@@ -160,14 +166,14 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
               
               product.isProfitable = true 
               product.profitMargin = profitability/product.retailSellingPrice 
-              console.log(product) 
-          //   //   Product
-          //   //   .forge(product)
-          //   //   .save()
-          //   //   .then((prod) => {
-          //   //     console.log({id: prod.id}) 
-          //   //     res.json({id: prod.id});
-          //   //   }) 
+              // console.log(product) 
+              Product
+              .forge(product)
+              .save()
+              .then((prod) => {
+                console.log({id: prod.id}) 
+                res.json({id: prod.id});
+              }) 
             }      
           }
         }); 
