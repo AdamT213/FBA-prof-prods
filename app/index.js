@@ -172,11 +172,8 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
               .save()
               .then((prod) => {
                 console.log({id: prod.id}) 
+                res.end()
               })
-              .on('done', () => { 
-                console.log('done parsing'); 
-                resolve();
-              });
             }      
           }
         }); 
