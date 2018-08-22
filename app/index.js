@@ -95,8 +95,6 @@ router.post('/distributors', urlencodedParser, jsonParser, (req, res) => {
 }); 
 
 router.post('/distributor/:id/upload', upload.single('file'), function (err,req, res, next ) { 
-
-  let products = [];
   
   if (err) { 
     console.log(req);
@@ -179,14 +177,15 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
               .forge(product)
               .save()
               .then((prod) => {
-                console.log({id: prod.id}) 
-                products.push(prod) 
+                console.log({id: prod.id})  
               })
             }      
           }
-        }); 
+        }).then(() => { 
+          console.log('done parsing') 
+          res.end() 
+        })
       }); 
-      res.json(products)
     })
 
 
