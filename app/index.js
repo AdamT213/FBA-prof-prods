@@ -177,9 +177,9 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
               .forge(product)
               .save()
               .then((prod) => {
-                console.log({id: prod.id}) 
-                res.end() 
-              })
+                console.log({id: prod.id})  
+              }) 
+              res.end()
             }      
           }
         })
