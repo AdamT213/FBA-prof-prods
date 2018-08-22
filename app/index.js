@@ -164,14 +164,16 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
             let amazonFees = resp.feeEstimateInfo 
             product.amazonFees = amazonFees 
             
-            //calculate selling price - buying price - fees to see if product is profitable 
-            var profitability = (product.retailSellingPrice - product.Price - product.amazonFees > 0)  
+            //calculate selling price - buying price - fees to see if product is profitable  
+            var profit = product.retailSellingPrice - product.Price - product.amazonFees
+            
+            var profitability = (profit > 0)  
              
             //save product to db if it is profitable
             if (profitability == true) { 
               
               product.isProfitable = true 
-              product.profitMargin = profitability/product.retailSellingPrice 
+              product.profitMargin = profit/product.retailSellingPrice 
                
               Product
               .forge(product)
