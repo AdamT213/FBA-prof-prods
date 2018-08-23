@@ -175,12 +175,13 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
               
               product.isProfitable = true 
               product.profitMargin = profit/product.retailSellingPrice 
+              console.log(product)
                
               Product
               .forge(product)
               .save()
               .then((prod) => {
-                console.log(prod.SalesRank)
+                // console.log(prod.SalesRank)
                 console.log({id: prod.id})  
               }) 
             }      
