@@ -72,9 +72,10 @@ exports.getPriceandASIN = (UPC) => {
       }
     }) 
     .catch(error => {
-      console.log('here is the error');
-      console.log(error); 
+      console.log('Error uploading UPC' + UPC);
+      console.log(error);
+      return "Error uploading this record";
     })
 } 
 
-// console.log(exports.getPriceandASIN('43171080044'))
+console.log(exports.getPriceandASIN('6.39E+11'))
