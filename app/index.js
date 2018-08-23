@@ -67,7 +67,7 @@ router.get('/distributors', (req, res) => {
 router.get('/distributor/:id', (req,res) => {
   Distributor
     .forge({id: req.params.id})
-    .fetch({withRelated: ['products', { SalesRank: function(query) { query.orderBy('SalesRank', 'ASC'); }}]})
+    .fetch({withRelated: [{ 'products': function(query) { query.orderBy('SalesRank', 'ASC'); }}]})
     .then((distributor) => {
       if (_.isEmpty(distributor))
         return res.sendStatus(404);
