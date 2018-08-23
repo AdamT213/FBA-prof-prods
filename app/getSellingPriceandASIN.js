@@ -60,17 +60,25 @@ exports.getPriceandASIN = (UPC) => {
     })
     .buffer(true).parse(myParse) 
     .then(res => { 
-      console.log(res.body.GetMatchingProductForIdResponse.GetMatchingProductForIdResult[0].Products[0].Product[0].SalesRankings[0].SalesRank[0].Rank[0])
+  
       //check if any products matching UPC are found 
       if(!res.body.GetMatchingProductForIdResponse.GetMatchingProductForIdResult[0].Error) {
         //find first product in returned list that has an associated listPrice
         let productWithPrice = res.body.GetMatchingProductForIdResponse.GetMatchingProductForIdResult[0].Products[0].Product.find((p) => p.AttributeSets[0]['ns2:ItemAttributes'][0]['ns2:ListPrice']) 
+        
+        //set sales rank to arbitrarily large number, then set it to actual rank if ranking info is found for product. This way, products with no sales rank info will still be added, but they will be displayed behind products with sales rank info
 
-        return productWithPrice !== undefined ? {ASIN: res.body.GetMatchingProductForIdResponse.GetMatchingProductForIdResult[0].Products[0].Product[0].Identifiers[0].MarketplaceASIN[0].ASIN[0], Price: productWithPrice.AttributeSets[0]['ns2:ItemAttributes'][0]['ns2:ListPrice'][0]['ns2:Amount'][0], SalesRank: productWithPrice.SalesRankings[0].SalesRank[0].Rank[0]} : {ASIN: null, Price: null, SalesRank: null}
-      } 
-      else { 
-        return {ASIN: null, Price: null, SalesRank: null}
+        let SalesRank = 1000000000000
+        
+        if (productWithPrice.SalesRankings[0] !== '') {
+          SalesRank = productWithPrice.SalesRankings[0].SalesRank[0].Rank[0]
+        }
+
+       return productWithPrice !== undefined ? 
+          {ASIN: res.body.GetMatchingProductForIdResponse.GetMatchingProductForIdResult[0].Products[0].Product[0].Identifiers[0].MarketplaceASIN[0].ASIN[0], Price: productWithPrice.AttributeSets[0]['ns2:ItemAttributes'][0]['ns2:ListPrice'][0]['ns2:Amount'][0], SalesRank: SalesRank} : 
+          {ASIN: null, Price: null, SalesRank: null} 
       }
+      return {ASIN: null, Price: null, SalesRank: null}
     }) 
     .catch(error => {
       console.log('Error uploading UPC ' + UPC);
@@ -79,4 +87,4 @@ exports.getPriceandASIN = (UPC) => {
     })
 } 
 
-// console.log(exports.getPriceandASIN('81202000920'))
+console.log(exports.getPriceandASIN('94628211030'))
