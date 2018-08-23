@@ -139,7 +139,7 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
              
             product.ASIN = info.ASIN 
             product.retailSellingPrice = info.Price  
-            product.SalesRank = info.SalesRank 
+            product.SalesRank = parseInt(info.SalesRank)
             
             //Use ASIN to make request to Amazon for estimated fees, if and only if the selling price is greater than the buying price 
            
@@ -175,13 +175,13 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
               
               product.isProfitable = true 
               product.profitMargin = profit/product.retailSellingPrice 
-              console.log(product)
+              
                
               Product
               .forge(product)
               .save()
               .then((prod) => {
-                // console.log(prod.SalesRank)
+                console.log(prod.SalesRank)
                 console.log({id: prod.id})  
               }) 
             }      
