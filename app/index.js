@@ -203,9 +203,10 @@ router.delete('/distributor/:id', function (req, res) {
     .then((distributor) => {
       distributor.destroy()
       .then(function () {
-        res.json({error: true, data: {message: 'Disributor successfully deleted'}});
+        res.json({error: true, data: {message: 'Distributor successfully deleted'}});
       })
-      .catch(function (err) {
+      .catch(function (err) { 
+        console.log(err.message)
         res.status(500).json({error: true, data: {message: err.message}})
       });
     })
