@@ -139,6 +139,9 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
              
             product.ASIN = info.ASIN 
             product.retailSellingPrice = info.Price  
+            product.SalesRank = info.SalesRank 
+
+            console.log(product)
             
             //Use ASIN to make request to Amazon for estimated fees, if and only if the selling price is greater than the buying price 
            
