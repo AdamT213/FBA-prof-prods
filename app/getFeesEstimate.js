@@ -66,8 +66,6 @@ exports.getFeesEstimate = (ASIN, Price) => {
     })
     .buffer(true).parse(myParse) 
     .then(res => {
-      // console.log('here is the response');
-      // console.log(res.body); 
       return res.body.GetMyFeesEstimateResponse.GetMyFeesEstimateResult[0].FeesEstimateResultList[0].FeesEstimateResult[0].FeesEstimate[0].TotalFeesEstimate[0].Amount[0]
     }) 
     .catch(error => {
@@ -76,4 +74,4 @@ exports.getFeesEstimate = (ASIN, Price) => {
     })
 } 
 
-//console.log(exports.getFeesEstimate("B002KT3XQM", "30.00")) 
+// console.log(exports.getFeesEstimate("B000H7LEDS", "4.99")) 

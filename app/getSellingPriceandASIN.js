@@ -60,22 +60,23 @@ exports.getPriceandASIN = (UPC) => {
     })
     .buffer(true).parse(myParse) 
     .then(res => { 
+      console.log(res.body.GetMatchingProductForIdResponse.GetMatchingProductForIdResult[0].Products[0].Product[0].SalesRankings[0].SalesRank[0].Rank[0])
       //check if any products matching UPC are found 
       if(!res.body.GetMatchingProductForIdResponse.GetMatchingProductForIdResult[0].Error) {
         //find first product in returned list that has an associated listPrice
         let productWithPrice = res.body.GetMatchingProductForIdResponse.GetMatchingProductForIdResult[0].Products[0].Product.find((p) => p.AttributeSets[0]['ns2:ItemAttributes'][0]['ns2:ListPrice']) 
 
-        return productWithPrice !== undefined ? {ASIN: res.body.GetMatchingProductForIdResponse.GetMatchingProductForIdResult[0].Products[0].Product[0].Identifiers[0].MarketplaceASIN[0].ASIN[0], Price: productWithPrice.AttributeSets[0]['ns2:ItemAttributes'][0]['ns2:ListPrice'][0]['ns2:Amount'][0]} : {ASIN: null, Price: null}
+        return productWithPrice !== undefined ? {ASIN: res.body.GetMatchingProductForIdResponse.GetMatchingProductForIdResult[0].Products[0].Product[0].Identifiers[0].MarketplaceASIN[0].ASIN[0], Price: productWithPrice.AttributeSets[0]['ns2:ItemAttributes'][0]['ns2:ListPrice'][0]['ns2:Amount'][0], SalesRank: productWithPrice.SalesRankings[0].SalesRank[0].Rank[0]} : {ASIN: null, Price: null, SalesRank: null}
       } 
       else { 
-        return {ASIN: null, Price: null}
+        return {ASIN: null, Price: null, SalesRank: null}
       }
     }) 
     .catch(error => {
-      console.log('Error uploading UPC' + UPC);
+      console.log('Error uploading UPC ' + UPC);
       console.log(error);
       return "Error uploading this record";
     })
 } 
 
-console.log(exports.getPriceandASIN('6.39E+11'))
+// console.log(exports.getPriceandASIN('81202000920'))
