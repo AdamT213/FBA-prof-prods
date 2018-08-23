@@ -67,7 +67,7 @@ router.get('/distributors', (req, res) => {
 router.get('/distributor/:id', (req,res) => {
   Distributor
     .forge({id: req.params.id})
-    .fetch({withRelated: ['products']})
+    .fetch({withRelated: ['products', { Rankings: function(query) { query.orderBy('SalesRank', 'ASC'); }}]})
     .then((distributor) => {
       if (_.isEmpty(distributor))
         return res.sendStatus(404);
@@ -181,7 +181,6 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
               .forge(product)
               .save()
               .then((prod) => {
-                console.log(prod.SalesRank)
                 console.log({id: prod.id})  
               }) 
             }      
