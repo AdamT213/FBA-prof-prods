@@ -201,7 +201,7 @@ router.delete('/distributor/:id', function (req, res) {
     .forge({id: req.params.id})
     .fetch({require: true})
     .then((distributor) => {
-      disributor.destroy()
+      distributor.destroy()
       .then(function () {
         res.json({error: true, data: {message: 'Disributor successfully deleted'}});
       })
