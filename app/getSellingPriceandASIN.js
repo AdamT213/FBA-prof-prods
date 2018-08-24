@@ -1,7 +1,8 @@
 const CryptoJS = require("crypto-js");
 const agent = require('superagent') 
 const moment = require('moment')
-const xml2js = require('xml2js');
+const xml2js = require('xml2js'); 
+require('dotenv').config(); 
 
 //generates the signature needed to sign the request to the amazon mws endpoint. Needs to programmatically include the UPC as a param, since each UPC generates a unique signature
 var generateSignatureForProductInfo = (UPC) => { 
@@ -9,25 +10,21 @@ var generateSignatureForProductInfo = (UPC) => {
   //moment.js UTC format seems to be the only thing MWS accepts as valid ISO 8601
   var timestamp = moment().utc().format("YYYY-MM-DDTHH:mm:ss.sss") + "Z"
 
-  var Message = "POST" + "\n" + "mws.amazonservices.com" + "\n" + "/Products/2011-10-01" + "\n" + "AWSAccessKeyId=" + encodeURIComponent('AKIAJO5TPTZ5YGGPNGQA') + "&Action=" + encodeURIComponent('GetMatchingProductForId') + "&IdList.Id.1=" + encodeURIComponent(UPC) + "&IdType=" + encodeURIComponent('UPC') + "&MarketplaceId=" + encodeURIComponent('ATVPDKIKX0DER') + "&SellerId=" + encodeURIComponent('A1N0R958ET8VVH') + "&SignatureMethod=" + encodeURIComponent('HmacSHA256') + "&SignatureVersion=" + encodeURIComponent('2') + "&Timestamp=" + encodeURIComponent(timestamp)
+  var Message = "POST" + "\n" + "mws.amazonservices.com" + "\n" + "/Products/2011-10-01" + "\n" + "AWSAccessKeyId=" + encodeURIComponent(process.env.AWS_ACCESS_KEY_ID) + "&Action=" + encodeURIComponent('GetMatchingProductForId') + "&IdList.Id.1=" + encodeURIComponent(UPC) + "&IdType=" + encodeURIComponent('UPC') + "&MarketplaceId=" + encodeURIComponent('ATVPDKIKX0DER') + "&SellerId=" + encodeURIComponent(process.env.SELLER_Id) + "&SignatureMethod=" + encodeURIComponent('HmacSHA256') + "&SignatureVersion=" + encodeURIComponent('2') + "&Timestamp=" + encodeURIComponent(timestamp)
   + "&Version=" + encodeURIComponent("2011-10-01"); 
 
-  var secret = "IrgC8kn+R2WirgIbM8N+hLHUjAS/6CLWvf1dzLcd";
+  var secret = process.env.SECRET;
 
   var hash = CryptoJS.HmacSHA256(Message, secret);
   
   var hashInBase64 = CryptoJS.enc.Base64.stringify(hash);
 
-  // console.log(timestamp)
   
   return hashInBase64 
 
 } 
 
 // console.log(exports.generateSignatureForProductInfo(UPC)) 
-
-// UPC=043171884536 
-//sellerId=A1N0R958ET8VVH 
 
 //setting up parser to convert xml response to JSON 
 function myParse (res, cb) {
@@ -47,11 +44,11 @@ exports.getPriceandASIN = (UPC) => {
     .post('https://mws.amazonservices.com/Products/2011-10-01') 
     .query({
       'Action': 'GetMatchingProductForId',
-      'AWSAccessKeyId': 'AKIAJO5TPTZ5YGGPNGQA',
+      'AWSAccessKeyId': process.env.AWS_ACCESS_KEY_ID,
       'IdList.Id.1': amazonUPC,
       'IdType': 'UPC',
       'MarketplaceId': 'ATVPDKIKX0DER',
-      'SellerId': 'A1N0R958ET8VVH',
+      'SellerId': process.env.SELLER_Id,
       'Signature': generateSignatureForProductInfo(amazonUPC),
       'SignatureMethod': 'HmacSHA256',
       'SignatureVersion': '2',
@@ -60,7 +57,6 @@ exports.getPriceandASIN = (UPC) => {
     })
     .buffer(true).parse(myParse) 
     .then(res => { 
-  
       //check if any products matching UPC are found 
       if(!res.body.GetMatchingProductForIdResponse.GetMatchingProductForIdResult[0].Error) {
         

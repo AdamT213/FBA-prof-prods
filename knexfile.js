@@ -1,3 +1,4 @@
+require('dotenv').config()
 
 module.exports = {
 
@@ -31,7 +32,7 @@ module.exports = {
 
   production: { 
     client: 'postgresql', 
-    connection: 'postgres://yzseonoxkkrykt:fa3f28caec77f6347446f3a0324280ad6bba6c191cfa884b27cb526365dd911f@ec2-107-21-98-165.compute-1.amazonaws.com:5432/dba646b89tvmfb',
+    connection: process.env.DATABASE_URL,
     pool: {
       min: 2,
       max: 10
@@ -40,4 +41,4 @@ module.exports = {
       tableName: 'knex_migrations'
     }
   }
-};
+}; 

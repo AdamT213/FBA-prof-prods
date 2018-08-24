@@ -15,7 +15,7 @@ const upload = multer({ dest: 'uploads/' });
 const ENV = process.env.NODE_ENV || 'development';
 const config = require('../knexfile');
 const db = knex(config[ENV]);
-require('dotenv').config();
+require('dotenv').config({path: path.join(__dirname, '.env')});  
 const cors = require('cors'); 
 const getPriceandASIN = require('./getSellingPriceandASIN'); 
 const getFeesEstimate = require('./getFeesEstimate');
