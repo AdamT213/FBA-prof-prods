@@ -104,8 +104,6 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
   }
   next()
 }, function (req, res, next) {  
-    
-    console.log(req.file)
  
     csv()
       .fromFile(req.file.path)
@@ -201,8 +199,7 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
               }) 
             }      
           }
-        })
-      });  
+        })  
       res.end()
     })
 
