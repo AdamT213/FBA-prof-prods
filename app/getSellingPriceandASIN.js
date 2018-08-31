@@ -85,4 +85,4 @@ exports.getPriceandASIN = (UPC) => {
     })
 } 
 
-// console.log(exports.getPriceandASIN('94628211030'))
+// console.log(exports.getPriceandASIN('855491007096'))

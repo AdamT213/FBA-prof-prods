@@ -153,6 +153,7 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
               
               async function makeAmazonFeesRequest() { 
 
+                console.log(delay)
                 await delay(1000)
                 
                 var feeEstimateInfo = await getFeesEstimate.getFeesEstimate(product.ASIN,product.retailSellingPrice) 
