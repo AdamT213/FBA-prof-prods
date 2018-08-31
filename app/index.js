@@ -128,7 +128,7 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
           
           async function makeAmazonRequest() {
 
-            await delay(10000)
+            await delay(1000)
 
             var productInfo = await getPriceandASIN.getPriceandASIN(product.UPC);
             return {product, productInfo}; 
