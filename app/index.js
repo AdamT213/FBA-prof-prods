@@ -110,20 +110,18 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
       .subscribe((json)=>{ 
 
         //set a one-second timeout before each execution of the loop to avoid throttling issues
-
-       return setTimeout(function(){ 
-          return new Promise((resolve,reject)=>{ 
+          
+        return new Promise((resolve,reject)=>{ 
 
             let product = new Item(json.Title); 
             product.distributor_id = req.params.id 
             product.SKU = json.SKU 
             product.UPC = json.UPC 
             product.Price = json.Price 
-            return resolve(product)
-          })  
+            return resolve(product)  
+            
             //make request to Amazon for product info, including selling price and ASIN 
-        
-        }, 1000)
+        }) 
         .then(product => {
           
           async function makeAmazonRequest() {
@@ -148,8 +146,14 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
             //Use ASIN to make request to Amazon for estimated fees, if and only if the selling price is greater than the buying price 
            
             if (product.retailSellingPrice > product.Price) { 
+
+              function delay(ms) {
+                return new Promise(function (resolve) { return setTimeout(resolve, ms); });
+              };
               
-              async function makeAmazonFeesRequest() {
+              async function makeAmazonFeesRequest() { 
+
+                await delay(1000)
                 
                 var feeEstimateInfo = await getFeesEstimate.getFeesEstimate(product.ASIN,product.retailSellingPrice) 
                  
