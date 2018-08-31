@@ -111,7 +111,7 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
 
         //set a one-second timeout before each execution of the loop to avoid throttling issues
 
-        setTimeout(function(){
+       return setTimeout(function(){ 
           return new Promise((resolve,reject)=>{ 
 
             let product = new Item(json.Title); 
@@ -123,8 +123,8 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
           })  
             //make request to Amazon for product info, including selling price and ASIN 
         
-        }, 1000).
-        then(product => {
+        }, 1000)
+        .then(product => {
           
           async function makeAmazonRequest() {
             var productInfo = await getPriceandASIN.getPriceandASIN(product.UPC);
