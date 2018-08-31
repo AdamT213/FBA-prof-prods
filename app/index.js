@@ -110,29 +110,34 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
     csv()
       .fromFile(req.file.path)
       .subscribe((json)=>{ 
+
+        function delay(ms) {
+          return new Promise(function (resolve) { return setTimeout(resolve, ms); });
+        };
           
-        return new Promise((resolve,reject)=>{ 
+        async function saveItemInfo() {  
+
+            await delay(1000)
 
             let product = new Item(json.Title); 
             product.distributor_id = req.params.id 
             product.SKU = json.SKU 
             product.UPC = json.UPC 
             product.Price = json.Price 
-            return resolve(product)  
+            return product
+
+        } 
+
+        return saveItemInfo()
             
-            //make request to Amazon for product info, including selling price and ASIN 
         }) 
         .then(product => { 
 
-          console.log(product)
+          //make request to Amazon for product info, including selling price and ASIN 
 
-          function delay(ms) {
-            return new Promise(function (resolve) { return setTimeout(resolve, ms); });
-          };
+          console.log(product)
           
           async function makeAmazonRequest() {
-
-            await delay(1000)
 
             var productInfo = await getPriceandASIN.getPriceandASIN(product.UPC);
             return {product, productInfo}; 
