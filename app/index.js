@@ -105,6 +105,8 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
   next()
 }, function (req, res, next) {  
     
+    console.log(req.file)
+ 
     csv()
       .fromFile(req.file.path)
       .subscribe((json)=>{ 
@@ -120,7 +122,9 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
             
             //make request to Amazon for product info, including selling price and ASIN 
         }) 
-        .then(product => {
+        .then(product => { 
+
+          console.log(product)
 
           function delay(ms) {
             return new Promise(function (resolve) { return setTimeout(resolve, ms); });
