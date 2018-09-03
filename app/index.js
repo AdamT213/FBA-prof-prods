@@ -104,7 +104,7 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
   }
   next()
 }, function (req, res, next) {  
- 
+    
     csv()
       .fromFile(req.file.path)
       .subscribe((json)=>{ 
@@ -112,31 +112,22 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
         function delay(ms) {
           return new Promise(function (resolve) { return setTimeout(resolve, ms); });
         };
-          
-        async function saveItemInfo() {  
-
-            await delay(1000)
-
-            let product = new Item(json.Title); 
-            product.distributor_id = req.params.id 
-            product.SKU = json.SKU 
-            product.UPC = json.UPC 
-            product.Price = json.Price 
-            return product
-
-        } 
-
-        return saveItemInfo()
-            
-        }) 
-        .then(product => { 
-
+        
+        return new Promise((resolve,reject)=>{ 
+ 
+          let product = new Item(json.Title); 
+          product.distributor_id = req.params.id 
+          product.SKU = json.SKU 
+          product.UPC = json.UPC 
+          product.Price = json.Price 
+          delay(2000).then(() => {
+            return resolve(product)
+          })
           //make request to Amazon for product info, including selling price and ASIN 
-
-          console.log(product)
+        
+        }).then(product => {
           
           async function makeAmazonRequest() {
-
             var productInfo = await getPriceandASIN.getPriceandASIN(product.UPC);
             return {product, productInfo}; 
           } 
@@ -159,7 +150,7 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
            
             if (product.retailSellingPrice > product.Price) { 
               
-              async function makeAmazonFeesRequest() { 
+              async function makeAmazonFeesRequest() {
                 
                 var feeEstimateInfo = await getFeesEstimate.getFeesEstimate(product.ASIN,product.retailSellingPrice) 
                  
@@ -199,7 +190,8 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
               }) 
             }      
           }
-        })  
+        })
+      });  
       res.end()
     })
 
