@@ -131,7 +131,8 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
           //make request to Amazon for product info, including selling price and ASIN 
         
         }).then(product => { 
-          async function makeAmazonRequest() {
+
+          async function makeAmazonRequest() { 
             var productInfo = await getPriceandASIN.getPriceandASIN(product.UPC);
             return {product, productInfo}; 
           } 
@@ -145,7 +146,7 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
           
           //will return null for ASIN if no product matching UPC is found, or null for Price if no matching product has a price listed
           
-          if (info.ASIN !== null && info.Price !== null) { 
+          if (info.ASIN != null && info.Price != null) { 
              
             product.ASIN = info.ASIN 
             product.retailSellingPrice = info.Price  
@@ -169,7 +170,6 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
           return product
         
         }).then(resp => {   
-          console.log(resp)
           if (resp && resp.feeEstimateInfo) { 
             
             let product = resp.product 
@@ -187,6 +187,7 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
               product.isProfitable = true 
               product.profitMargin = profit/product.retailSellingPrice 
               
+              console.log(product)
                
               Product
               .forge(product)
