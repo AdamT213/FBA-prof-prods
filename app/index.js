@@ -112,10 +112,7 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
         return new Promise((resolve,reject)=>{ 
 
           function delay(ms) {
-            return new Promise(function (resolve) { 
-              console.log("awaiting delay")
-              return setTimeout(resolve, ms); 
-            });
+            return new Promise(function (resolve) { return setTimeout(resolve, ms);});
           };
 
           async function setProductInfo() {
@@ -134,7 +131,6 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
           //make request to Amazon for product info, including selling price and ASIN 
         
         }).then(product => { 
-          console.log(product)
           async function makeAmazonRequest() {
             var productInfo = await getPriceandASIN.getPriceandASIN(product.UPC);
             return {product, productInfo}; 
@@ -173,7 +169,7 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
           return product
         
         }).then(resp => {   
-
+          console.log(resp)
           if (resp && resp.feeEstimateInfo) { 
             
             let product = resp.product 
