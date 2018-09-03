@@ -110,13 +110,26 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
       .subscribe((json)=>{ 
         
         return new Promise((resolve,reject)=>{ 
- 
-          let product = new Item(json.Title); 
-          product.distributor_id = req.params.id 
-          product.SKU = json.SKU 
-          product.UPC = json.UPC 
-          product.Price = json.Price 
-          return resolve(product)
+
+          function delay(ms) {
+            return new Promise(function (resolve) { 
+              console.log("awaiting delay")
+              return setTimeout(resolve, ms); 
+            });
+          };
+
+          async function setProductInfo() {
+            
+            await delay(2000) 
+            let product = new Item(json.Title); 
+            product.distributor_id = req.params.id 
+            product.SKU = json.SKU 
+            product.UPC = json.UPC 
+            product.Price = json.Price 
+            return product
+          } 
+
+          return resolve(setProductInfo())
           
           //make request to Amazon for product info, including selling price and ASIN 
         
