@@ -120,13 +120,13 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
 
           async function setProductInfo() {
             
-            await delay(2000) 
+            await delay(1000) 
             let product = new Item(json.Title); 
             product.distributor_id = req.params.id 
             product.SKU = json.SKU 
             product.UPC = json.UPC 
             product.Price = json.Price 
-            return product
+            return await product
           } 
 
           return resolve(setProductInfo())
@@ -134,13 +134,16 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
           //make request to Amazon for product info, including selling price and ASIN 
         
         }).then(product => { 
+          console.log(product)
           async function makeAmazonRequest() {
             var productInfo = await getPriceandASIN.getPriceandASIN(product.UPC);
             return {product, productInfo}; 
           } 
+          
           return makeAmazonRequest()
         
         }).then(data => {  
+          
           let info = data.productInfo; 
           let product = data.product; 
           
@@ -162,6 +165,7 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
                  
                 return {product, feeEstimateInfo}
               } 
+              
               return makeAmazonFeesRequest()
             } 
             return product  
