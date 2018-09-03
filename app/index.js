@@ -119,8 +119,8 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
           
           //make request to Amazon for product info, including selling price and ASIN 
         
-        }).then(product => {
-          
+        }).then(product => { 
+          console.log(product)
           async function makeAmazonRequest() {
             var productInfo = await getPriceandASIN.getPriceandASIN(product.UPC);
             return {product, productInfo}; 
@@ -128,7 +128,7 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
           return makeAmazonRequest()
         
         }).then(data => {  
-          
+          console.log(data)
           let info = data.productInfo; 
           let product = data.product; 
           
