@@ -66,7 +66,7 @@ exports.getPriceandASIN = (UPC) => {
         
         //set sales rank to arbitrarily large number, then set it to actual rank if ranking info is found for product. This way, products with no sales rank info will still be added, but they will be displayed behind products with sales rank info
 
-        let SalesRank = 1000000000000
+        let SalesRank = 1000000000
         
         if (productWithPrice && productWithPrice.SalesRankings[0] !== '') {
           SalesRank = productWithPrice.SalesRankings[0].SalesRank[0].Rank[0]

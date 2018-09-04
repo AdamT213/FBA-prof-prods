@@ -110,7 +110,9 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
       .subscribe((json)=>{ 
         
         return new Promise((resolve,reject)=>{ 
-
+          
+          //add a one-second delay between the processing of each json item to avoid throttling issues. Throttling seems to occur when lots of invalid upcs appear in a row, causing many requests to be fired in rapid succession
+          
           function delay(ms) {
             return new Promise(function (resolve) { return setTimeout(resolve, ms);});
           };
@@ -186,8 +188,6 @@ router.post('/distributor/:id/upload', upload.single('file'), function (err,req,
               
               product.isProfitable = true 
               product.profitMargin = profit/product.retailSellingPrice 
-              
-              console.log(product)
                
               Product
               .forge(product)
